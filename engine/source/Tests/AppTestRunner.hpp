@@ -6,6 +6,9 @@ class AppTestRunner{
         AppTestRunner();
         ~AppTestRunner();
 
+        AppTestRunner(const AppTestRunner&)=delete;
+        AppTestRunner& operator=(const AppTestRunner&)=delete;
+
     private:
 
 

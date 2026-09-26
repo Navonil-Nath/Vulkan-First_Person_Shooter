@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSIOn 3.20)
+cmake_minimum_required(VERSION 3.20)
 project("Kitten_Engine" VERSION 1.00 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,6 +18,13 @@ FetchContent_Declare(
     GIT_TAG 3.5.1
 )
 
-FetchContent_MakeAvailable(glfw)
+FetchContent_MakeAvailable(glfw) 
 
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG 1.0.3
+)
+FetchContent_MakeAvailable(glm)
 
+add_subdirectory("./source")
