@@ -8,9 +8,13 @@
 #include<memory>
 #include"instance.hpp"
 #include"window_surface.hpp"
+#include"AppTestRunner.hpp"
+
+class AppTestRunner;
 
 class App{
     public:
+    friend class AppTestRunner;
     int WIDTH=900;
     int HEIGHT=900;
     int MAX_FRAMES_IN_FLIGHT=1;
