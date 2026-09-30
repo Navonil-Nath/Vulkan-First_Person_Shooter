@@ -28,4 +28,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glm)
 
 add_subdirectory("./engine/source")
-add_subdirectory("./engine/shades")
+add_subdirectory("./engine/shaders")

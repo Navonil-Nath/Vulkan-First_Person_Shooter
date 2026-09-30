@@ -9,7 +9,8 @@ set(SOURCES
 "./vulkan_instance/instance.cpp"
 "./Window/glfw_window.cpp"
 "main.cpp"
-
+"./device/swapchainSupport.cpp"
+"./device/physicalDevice.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -30,6 +31,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./vendor"
     "./vulkan_instance"
     "./Window"
+    "./device"
     
 
 )
