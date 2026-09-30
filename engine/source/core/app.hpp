@@ -9,6 +9,7 @@
 #include"instance.hpp"
 #include"window_surface.hpp"
 #include"AppTestRunner.hpp"
+#include"glfw_window.hpp"
 
 class AppTestRunner;
 
@@ -24,11 +25,14 @@ class App{
     App(const App&)=delete;
     App& operator=(const App&)=delete;
 
+    
+
     void Run();
     private:
         Window m_glfw_window{WIDTH,HEIGHT,"fps Window"};
-        std::unique_ptr<VulkanInstance>obj_vulkan_instance;
-        std::unique_ptr<WindowSurface>obj_window_surface;
+        std::unique_ptr<VulkanInstance>m_vulkan_instance;
+        std::unique_ptr<WindowSurface>m_window_surface;
+       
         
 };
 

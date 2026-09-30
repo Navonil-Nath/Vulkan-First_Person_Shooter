@@ -7,7 +7,7 @@
 
 class Window{
     public:
-        Window(int width,int height,const std::string& title);
+        Window(int width,int height,const std::string title);
         ~Window();
 
         Window(const Window&)=delete;
@@ -16,14 +16,17 @@ class Window{
         void pollEvents();
 
         bool ShouldCloseWindow();
-        GLFWwindow* get(){return m_window;}
+        GLFWwindow* get()const {return m_window;}
+
+        void setCursorMode(int mode);
+        int getCursorMode();
 
     private:
 
         GLFWwindow* m_window=nullptr;
         int m_width=0;
         int m_height=0;
-        const std::string& m_string;
+        std::string m_string;
 
         void InitWindow();
 

@@ -1,6 +1,6 @@
 #include"glfw_window.hpp"
 
-Window::Window(int width,int height,const std::string& title):m_width(width),m_height(height),m_string(title){
+Window::Window(int width,int height,const std::string title):m_width(width),m_height(height),m_string(title){
     InitWindow();
 }
 
@@ -12,7 +12,7 @@ void Window::InitWindow(){
     glfwWindowHint(GLFW_RESIZABLE,GLFW_FALSE);
 
     m_window=glfwCreateWindow(m_width,m_height,m_string.c_str(),nullptr,nullptr);
-    if(m_window=nullptr){
+    if(m_window==nullptr){
         std::cout<<"the window coudn't be created"<<std::endl;
         glfwTerminate();
     }
@@ -32,5 +32,18 @@ bool Window::ShouldCloseWindow(){
 
 void Window::pollEvents(){
     return glfwPollEvents();
+}
+
+void Window::setCursorMode(int mode){
+    if(m_window){
+        glfwSetInputMode(m_window,GLFW_CURSOR,mode);
+    }
+}
+
+int Window::getCursorMode(){
+    if(m_window){
+        return glfwGetInputMode(m_window,GLFW_CURSOR);
+    }
+    return GLFW_CURSOR_NORMAL; //default
 }
 

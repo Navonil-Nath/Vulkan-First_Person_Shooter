@@ -1,5 +1,17 @@
 #include"app.hpp"
 #include<iostream>
+#include<memory>
+#include<GLFW/glfw3.h>
+#include<string>
+
+App::App(){
+    m_vulkan_instance=std::make_unique<VulkanInstance>("Kitten_Engine");
+    m_window_surface=std::make_unique<WindowSurface>(m_glfw_window.get(),m_vulkan_instance->get());
+}
+
+App::~App(){
+    
+}
 
 
 void App::Run(){

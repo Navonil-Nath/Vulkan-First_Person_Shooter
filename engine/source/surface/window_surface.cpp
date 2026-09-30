@@ -1,5 +1,4 @@
-#ifndef VULKAN_SURFACE_CLASS
-#define VULKAN_SURFACE_CLASS
+
 #include<stdexcept>
 #include "window_surface.hpp"
 
@@ -15,4 +14,3 @@ WindowSurface::~WindowSurface(){
     }
 }
 
-#endif

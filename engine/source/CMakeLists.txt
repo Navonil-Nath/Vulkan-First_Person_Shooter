@@ -2,6 +2,13 @@ set(SOURCES
 "./core/app.cpp"
 "./Tests/AppTestRunner.cpp"
 "./UI/AppUi.cpp"
+"./surface/window_surface.cpp"
+"./Tests/AppTestRunner.cpp"
+"./UI/AppUi.cpp"
+"./vendor/stb_image.cpp"
+"./vulkan_instance/instance.cpp"
+"./Window/glfw_window.cpp"
+"main.cpp"
 
 )
 
@@ -17,6 +24,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./core"
     "./Tests"
     "./UI"
+    "./surface"
+    "./Tests"
+    "./UI"
+    "./vendor"
+    "./vulkan_instance"
+    "./Window"
+    
 
 )
 
