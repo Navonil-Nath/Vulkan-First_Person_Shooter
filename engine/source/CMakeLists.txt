@@ -11,6 +11,7 @@ set(SOURCES
 "main.cpp"
 "./device/swapchainSupport.cpp"
 "./device/physicalDevice.cpp"
+"./device/logical_device.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

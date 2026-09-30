@@ -12,6 +12,7 @@
 #include"glfw_window.hpp"
 #include"swapchainSupport.hpp"
 #include"physicalDevice.hpp"
+#include"logical_device.hpp"
 
 class AppTestRunner;
 
@@ -35,6 +36,7 @@ class App{
         std::unique_ptr<VulkanInstance>m_vulkan_instance;
         std::unique_ptr<WindowSurface>m_window_surface;
         std::unique_ptr<PhysicalDevice>m_physical_Device;
+        std::unique_ptr<LogicalDevice>m_logical_device;
        
         
 };
