@@ -13,6 +13,8 @@
 #include"swapchainSupport.hpp"
 #include"physicalDevice.hpp"
 #include"logical_device.hpp"
+#include"swapchain.hpp"
+#include"swapchainImageView.hpp"
 
 class AppTestRunner;
 
@@ -37,6 +39,8 @@ class App{
         std::unique_ptr<WindowSurface>m_window_surface;
         std::unique_ptr<PhysicalDevice>m_physical_Device;
         std::unique_ptr<LogicalDevice>m_logical_device;
+        std::unique_ptr<Swapchain>m_swapchain;
+        std::unique_ptr<SwapchainImageView>m_swapchainImageView;
        
         
 };
