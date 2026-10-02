@@ -18,6 +18,8 @@
 #include"depth_image.hpp"
 #include"renderpass.hpp"
 #include"framebuffer.hpp"
+#include"command.hpp"
+#include"sync.cpp"
 
 
 class AppTestRunner;
@@ -27,7 +29,7 @@ class App{
     friend class AppTestRunner;
     int WIDTH=900;
     int HEIGHT=900;
-    int MAX_FRAMES_IN_FLIGHT=1;
+    int MAX_FRAMES_IN_FLIGHT=3;
     App();
     ~App();
 
@@ -48,7 +50,8 @@ class App{
         std::unique_ptr<DepthResource>m_depthResource;
         std::unique_ptr<RenderPass>m_renderPass;
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
-       
+        std::unique_ptr<CommandBuffer>m_command_handle;
+        std::unique_ptr<SyncObjects>m_sync_objects;
         
 };
 

@@ -17,6 +17,8 @@ set(SOURCES
 "./DepthResource/depth_image.cpp"
 "./pipeline/renderpass.cpp"
 "./pipeline/framebuffer.cpp"
+"./command/command.cpp"
+"./sync/sync.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -40,6 +42,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./device"
     "./DepthResource"
     "./pipeline"
+    "./command"
+    "./sync"
     
 
 )
