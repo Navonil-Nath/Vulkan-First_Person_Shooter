@@ -78,9 +78,10 @@ VkExtent2D Swapchain::chooseSwapImageExtent(VkSurfaceCapabilitiesKHR capabilitie
     VkExtent2D actualExtent={
         static_cast<uint32_t>(width),
         static_cast<uint32_t>(height)
+        //there is no z componet for the color image as it is a 2d projected image
     };
 
-    //now fix the upper and lower limit of theswap image extent it is very necessary
+    //now fix the upper and lower limit of the swap image extent it is very necessary
     actualExtent.width=std::clamp(actualExtent.width,capabilities.minImageExtent.width,capabilities.maxImageExtent.width);
     actualExtent.height=std::clamp(actualExtent.height,capabilities.minImageExtent.height,capabilities.maxImageExtent.height);
 

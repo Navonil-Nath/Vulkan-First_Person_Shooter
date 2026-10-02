@@ -16,6 +16,7 @@ set(SOURCES
 "./device/swapchainImageView.cpp"
 "./DepthResource/depth_image.cpp"
 "./pipeline/renderpass.cpp"
+"./pipeline/framebuffer.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
