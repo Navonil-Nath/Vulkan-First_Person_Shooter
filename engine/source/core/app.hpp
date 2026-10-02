@@ -15,6 +15,8 @@
 #include"logical_device.hpp"
 #include"swapchain.hpp"
 #include"swapchainImageView.hpp"
+#include"depth_image.hpp"
+
 
 class AppTestRunner;
 
@@ -41,6 +43,7 @@ class App{
         std::unique_ptr<LogicalDevice>m_logical_device;
         std::unique_ptr<Swapchain>m_swapchain;
         std::unique_ptr<SwapchainImageView>m_swapchainImageView;
+        std::unique_ptr<DepthResource>m_depthResource;
        
         
 };

@@ -14,6 +14,7 @@ set(SOURCES
 "./device/logical_device.cpp"
 "./device/swapchain.cpp"
 "./device/swapchainImageView.cpp"
+"./DepthResource/depth_image.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -35,6 +36,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./vulkan_instance"
     "./Window"
     "./device"
+    "./DepthResource"
     
 
 )
