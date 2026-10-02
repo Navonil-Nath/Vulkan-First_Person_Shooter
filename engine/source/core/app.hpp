@@ -16,6 +16,7 @@
 #include"swapchain.hpp"
 #include"swapchainImageView.hpp"
 #include"depth_image.hpp"
+#include"renderpass.hpp"
 
 
 class AppTestRunner;
@@ -44,6 +45,7 @@ class App{
         std::unique_ptr<Swapchain>m_swapchain;
         std::unique_ptr<SwapchainImageView>m_swapchainImageView;
         std::unique_ptr<DepthResource>m_depthResource;
+        std::unique_ptr<RenderPass>m_renderPass;
        
         
 };

@@ -15,6 +15,7 @@ set(SOURCES
 "./device/swapchain.cpp"
 "./device/swapchainImageView.cpp"
 "./DepthResource/depth_image.cpp"
+"./pipeline/renderpass.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -37,6 +38,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./Window"
     "./device"
     "./DepthResource"
+    "./pipeline"
     
 
 )
