@@ -1,3 +1,0 @@
-C:/Users/navon/OneDrive/Desktop/Vulkan-First_Person_Shooter/build/_deps/glm-subbuild/CMakeFiles/glm-populate.dir
-C:/Users/navon/OneDrive/Desktop/Vulkan-First_Person_Shooter/build/_deps/glm-subbuild/CMakeFiles/edit_cache.dir
-C:/Users/navon/OneDrive/Desktop/Vulkan-First_Person_Shooter/build/_deps/glm-subbuild/CMakeFiles/rebuild_cache.dir
