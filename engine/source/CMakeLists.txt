@@ -19,6 +19,7 @@ set(SOURCES
 "./pipeline/framebuffer.cpp"
 "./command/command.cpp"
 "./sync/sync.cpp"
+"./data/shaderModule.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -44,6 +45,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./pipeline"
     "./command"
     "./sync"
+    "./data"
     
 
 )

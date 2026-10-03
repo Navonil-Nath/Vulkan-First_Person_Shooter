@@ -19,7 +19,9 @@
 #include"renderpass.hpp"
 #include"framebuffer.hpp"
 #include"command.hpp"
-#include"sync.cpp"
+#include"sync.hpp"
+#include"vertex.hpp"
+#include"shaderModule.hpp"
 
 
 class AppTestRunner;
@@ -52,6 +54,7 @@ class App{
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
         std::unique_ptr<CommandBuffer>m_command_handle;
         std::unique_ptr<SyncObjects>m_sync_objects;
+        
         
 };
 
