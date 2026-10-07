@@ -50,10 +50,7 @@ class CommandBuffer{
         void CreateCommandpool(uint32_t queueIndex);
         VkDevice m_device{VK_NULL_HANDLE};
 
-        
-
-
-
+    
 
 };
 

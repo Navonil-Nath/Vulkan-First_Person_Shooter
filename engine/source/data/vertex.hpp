@@ -30,7 +30,7 @@ struct Vertex{
         VkVertexInputBindingDescription inputBindingDescription{};
         inputBindingDescription.binding=0; //this binding position acts a s slot where all the vertices flows through
         inputBindingDescription.stride=sizeof(Vertex);
-        inputBindingDescription.inputRate=VK_VERTEX_INPUT_RATE_VERTEX; //just as i told above
+        inputBindingDescription.inputRate=VK_VERTEX_INPUT_RATE_VERTEX ;//just as i told above
 
         return inputBindingDescription;
 

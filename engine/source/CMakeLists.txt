@@ -20,6 +20,9 @@ set(SOURCES
 "./command/command.cpp"
 "./sync/sync.cpp"
 "./data/shaderModule.cpp"
+"./Buffers/Stagingbuffer.cpp"
+"./Buffers/Indexbuffer.cpp"
+"./Buffers/Vertexbuffer.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -46,8 +49,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./command"
     "./sync"
     "./data"
+    "./Buffers"
     
-
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
