@@ -23,6 +23,7 @@ set(SOURCES
 "./Buffers/Stagingbuffer.cpp"
 "./Buffers/Indexbuffer.cpp"
 "./Buffers/Vertexbuffer.cpp"
+"./Buffers/UniformBuffer.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
