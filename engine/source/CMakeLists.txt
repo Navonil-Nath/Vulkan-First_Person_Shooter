@@ -24,6 +24,8 @@ set(SOURCES
 "./Buffers/Indexbuffer.cpp"
 "./Buffers/Vertexbuffer.cpp"
 "./Buffers/UniformBuffer.cpp"
+"./Buffers/pushConstant.cpp"
+"./Buffers/DescriptorSetLayout.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
