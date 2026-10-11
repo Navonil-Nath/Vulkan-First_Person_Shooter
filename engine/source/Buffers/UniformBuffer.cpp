@@ -36,6 +36,7 @@ void UniformBuffer::CreateBuffer(){
         throw std::runtime_error("memory allocation for the ubo failled");
     }
 
+    vkBindBufferMemory(m_device,m_buffer,m_memory,0); //i forgot to iclude this part in the earlier video
 }
 
 uint32_t UniformBuffer::findMemory(uint32_t typeFilter,VkMemoryPropertyFlags flags){

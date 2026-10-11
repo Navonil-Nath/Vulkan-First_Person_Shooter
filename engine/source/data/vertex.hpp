@@ -74,7 +74,5 @@ struct Vertex{
 
 };
 
-
-
 #endif
 

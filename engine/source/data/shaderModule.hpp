@@ -16,6 +16,8 @@ class ShaderModule{
     ShaderModule(const ShaderModule&)=delete;
     ShaderModule& operator=(const ShaderModule&)=delete;
 
+    VkShaderModule get(){return m_shaderModule;}
+
 
     private:    
     VkDevice m_device{VK_NULL_HANDLE};

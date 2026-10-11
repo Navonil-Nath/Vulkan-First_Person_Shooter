@@ -17,6 +17,8 @@ App::App(){
     m_frambuffer_handle=std::make_unique<FrameBuffer>(m_logical_device->get(),m_swapchainImageView->get(),m_depthResource->getImageView(),m_renderPass->get(),m_swapchain->getExtent());
     m_command_handle=std::make_unique<CommandBuffer>(m_logical_device->get(),m_logical_device->getQueueIndex(),MAX_FRAMES_IN_FLIGHT);
     m_sync_objects=std::make_unique<SyncObjects>(MAX_FRAMES_IN_FLIGHT,m_logical_device->get());
+    uniformbuffer_one=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
+    graphicsPipleine_one=std::make_unique<GraphicsPipeline>(m_logical_device->get(),m_renderPass->get(),pipelineLayout_one->get(),m_swapchain->getExtent());
 }
 
 App::~App(){

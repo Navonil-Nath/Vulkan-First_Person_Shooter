@@ -22,6 +22,15 @@
 #include"sync.hpp"
 #include"vertex.hpp"
 #include"shaderModule.hpp"
+#include"DescriptorSetLayout.hpp"
+#include"Indexbuffer.hpp"
+#include"pushConstant.hpp"
+#include"Stagingbuffer.hpp"
+#include"UniformBuffer.hpp"
+#include"VertexBuffer.hpp"
+#include"pipelineLayout.hpp"
+#include"graphicsPipeline.hpp"
+
 
 
 class AppTestRunner;
@@ -54,7 +63,14 @@ class App{
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
         std::unique_ptr<CommandBuffer>m_command_handle;
         std::unique_ptr<SyncObjects>m_sync_objects;
-        
+        std::unique_ptr<DescriptorSetLayout>descriptorSetLayout_one;
+        std::unique_ptr<IndexBuffer>indexbuffer_one;
+        PushConstantObject pushconstant_one;
+        std::unique_ptr<StaggingBuffer>stagingbuffer_one;
+        std::unique_ptr<UniformBuffer>uniformbuffer_one;
+        std::unique_ptr<VertexBuffer>vertexbuffer_one;
+        std::unique_ptr<PipelineLayout>pipelineLayout_one;
+        std::unique_ptr<GraphicsPipeline>graphicsPipleine_one;
         
 };
 

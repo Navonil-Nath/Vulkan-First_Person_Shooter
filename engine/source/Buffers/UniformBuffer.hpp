@@ -18,41 +18,41 @@ struct UniformBufferObject{
     static constexpr uint32_t totalBines=130;
 
     //for the main camera
-    glm::mat4 view{1.0f};
-    glm::mat4 projection{1.0f};
-    glm::mat4 MainCameraSpace=projection*view;
+    alignas(16) glm::mat4 view{1.0f};
+    alignas(16) glm::mat4 projection{1.0f};
+    alignas(16) glm::mat4 MainCameraSpace{1.0f};
     
 
     //for the pointlight --we will set the position and direction of the point light later
-    glm::mat4 pointlightView{1.0f};
-    glm::mat4 pointlightProj{1.0f};
-    glm::mat4 pointLightSpace=pointlightProj*pointlightView;
+    alignas(16) glm::mat4 pointlightView{1.0f};
+    alignas(16) glm::mat4 pointlightProj{1.0f};
+    alignas(16) glm::mat4 pointLightSpace={1.0f};
     
     //for the directional light
 
-    glm::vec4 dirlightDirection{0.5f,-1.0f,0.5f,0.0f};
-    glm::vec3 dirlightColor{1.0f,1.0f,1.0f};
-    glm::mat4 dirLightView{1.0f};
-    glm::mat4 dirLightProj{1.0f};
-    glm::mat4 dirLightSpace=dirLightProj*dirLightView;
+    alignas(16) glm::vec4 dirlightDirection{0.5f,-1.0f,0.5f,0.0f};
+    alignas(16) glm::vec3 dirlightColor{1.0f,1.0f,1.0f};
+    alignas(16) glm::mat4 dirLightView{1.0f};
+    alignas(16) glm::mat4 dirLightProj{1.0f};
+    alignas(16) glm::mat4 dirLightSpace={1.0f};
 
     //for the reflective surface setting up camera positions and matrices
     //for each reflective object their would be 6 directions for the camera to take input wrt to its position
     //so the total mo of directions it will be looking at is 'max_ref_surfaces'
-    glm::mat4 refl_cubeMapViews[max_ref_surfaces];
-    glm::mat4 refl_cubeMapProjection[max_ref_surfaces];
-    glm::mat4 refl_cubemapSpace[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_cubeMapViews[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_cubeMapProjection[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_cubemapSpace[max_ref_surfaces];
 
 
     //for the skybox cubemap
     //this is optional beacuse in case the skybox requires a different rendering than the normal reflective surfaces
-    glm::mat4 refl_skyboxView[max_ref_surfaces];
-    glm::mat4 refl_skyboxProj[max_ref_surfaces];
-    glm::mat4 refl_skyboxSpace[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_skyboxView[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_skyboxProj[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_skyboxSpace[max_ref_surfaces];
 
 
     //for rigging animations
-    glm::mat4 bones[200];
+    alignas(16) glm::mat4 bones[200];
 
 
 
