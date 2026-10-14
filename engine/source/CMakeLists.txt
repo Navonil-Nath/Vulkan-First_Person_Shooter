@@ -29,6 +29,7 @@ set(SOURCES
 "./pipeline/pipeLineLayout.cpp"
 "./pipeline/graphicsPipeline.cpp"
 "./texture/DescriptorPool.cpp"
+"./texture/TextureSampler.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

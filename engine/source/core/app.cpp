@@ -20,6 +20,7 @@ App::App(){
     uniformbuffer_one=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
     graphicsPipleine_one=std::make_unique<GraphicsPipeline>(m_logical_device->get(),m_renderPass->get(),pipelineLayout_one->get(),m_swapchain->getExtent());
     descriptor_pool=std::make_unique<DescriptorPool>(m_logical_device->get());
+    texture_sampler=std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::Repeat);
 }
 
 App::~App(){
