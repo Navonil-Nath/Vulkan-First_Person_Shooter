@@ -34,6 +34,9 @@
 #include"TextureSampler.hpp"
 #include"DescriptorSet.hpp"
 #include"DescriptorSetLayout.hpp"
+#include"baseDescriptor.hpp"
+#include"normalDescriptor.hpp"
+#include"reflectioncubemapDescriptor.hpp"
 
 
 
@@ -77,8 +80,15 @@ class App{
         std::unique_ptr<GraphicsPipeline>graphicsPipleine_one;
         std::unique_ptr<DescriptorPool>descriptor_pool;
         std::unique_ptr<TextureSampler>texture_sampler;
-        std::unique_ptr<DescriptorSet>descriptorSet_one;
+        std::unique_ptr<DescriptorSet>baseDescriptor_Set;
+        std::unique_ptr<DescriptorSet>materialPropDescriptor_Set;
+        std::unique_ptr<DescriptorSet>reflectionCubeMap_Descriptor_Set;
         
 };
 
 #endif
+
+/*
+
+now we have initilised the descriptor sets contains uniform buffer,skybox vkImage,the different textures of a cube
+*/

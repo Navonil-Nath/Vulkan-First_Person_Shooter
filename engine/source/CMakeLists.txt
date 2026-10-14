@@ -31,6 +31,10 @@ set(SOURCES
 "./texture/DescriptorPool.cpp"
 "./texture/TextureSampler.cpp"
 "./DescriptorSet/DescriptorSet.cpp"
+"./DescriptorSet/Descriptor/baseDescriptor.cpp"
+"./DescriptorSet/Descriptor/normalDescriptor.cpp"
+"./DescriptorSet/Descriptor/reflectioncubemapDescriptor.hpp"
+
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -60,6 +64,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./Buffers"
     "./texture"
     "./DescriptorSet"
+    "./DescriptorSet/Descriptor"
     
 )
 
