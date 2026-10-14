@@ -83,6 +83,11 @@ class App{
         std::unique_ptr<DescriptorSet>baseDescriptor_Set;
         std::unique_ptr<DescriptorSet>materialPropDescriptor_Set;
         std::unique_ptr<DescriptorSet>reflectionCubeMap_Descriptor_Set;
+
+        std::unique_ptr<DiffuseImage> m_DiffuseImage;
+        std::unique_ptr<NormalDescriptor>m_NormalDescriptor;
+        std::unique_ptr<ReflectionDescriptor>m_ReflectionDescriptor;
+        //now whenver we need to create a descriptor just pass in the set and other parametes to the respective functions of these three above objects
         
 };
 
@@ -90,5 +95,7 @@ class App{
 
 /*
 
-now we have initilised the descriptor sets contains uniform buffer,skybox vkImage,the different textures of a cube
+now we have initilised the descriptor sets contains uniform buffer,skybox vkImage,the different textures of a cube-->at the set "baseDescriptor_Set"
+and the normal map,shadow map,base/diffuse map at the set -->"materialPropDescriptor_Set"
+and the reflection cubemap to hold the reflection image on the surface of a object at the set -->"reflectionCubeMap_Descriptor_Set"
 */
