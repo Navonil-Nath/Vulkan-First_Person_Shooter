@@ -30,6 +30,7 @@ set(SOURCES
 "./pipeline/graphicsPipeline.cpp"
 "./texture/DescriptorPool.cpp"
 "./texture/TextureSampler.cpp"
+"./DescriptorSet/DescriptorSet.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -58,6 +59,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./data"
     "./Buffers"
     "./texture"
+    "./DescriptorSet"
     
 )
 

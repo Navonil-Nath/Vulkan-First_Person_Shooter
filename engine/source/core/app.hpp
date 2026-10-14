@@ -32,6 +32,8 @@
 #include"graphicsPipeline.hpp"
 #include"DescriptorPool.hpp"
 #include"TextureSampler.hpp"
+#include"DescriptorSet.hpp"
+#include"DescriptorSetLayout.hpp"
 
 
 
@@ -75,6 +77,7 @@ class App{
         std::unique_ptr<GraphicsPipeline>graphicsPipleine_one;
         std::unique_ptr<DescriptorPool>descriptor_pool;
         std::unique_ptr<TextureSampler>texture_sampler;
+        std::unique_ptr<DescriptorSet>descriptorSet_one;
         
 };
 

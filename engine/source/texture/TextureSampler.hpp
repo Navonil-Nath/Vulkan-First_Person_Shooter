@@ -22,6 +22,8 @@ class TextureSampler{
     TextureSampler(const TextureSampler&)=delete;
     TextureSampler& operator=(const TextureSampler&)=delete;
 
+    VkSampler get(){return m_sampler;}
+
     private:
     VkDevice m_device{VK_NULL_HANDLE};
     VkSampler m_sampler{VK_NULL_HANDLE};
