@@ -19,6 +19,7 @@ App::App(){
     m_sync_objects=std::make_unique<SyncObjects>(MAX_FRAMES_IN_FLIGHT,m_logical_device->get());
     uniformbuffer_one=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
     graphicsPipleine_one=std::make_unique<GraphicsPipeline>(m_logical_device->get(),m_renderPass->get(),pipelineLayout_one->get(),m_swapchain->getExtent());
+    descriptor_pool=std::make_unique<DescriptorPool>(m_logical_device->get());
 }
 
 App::~App(){

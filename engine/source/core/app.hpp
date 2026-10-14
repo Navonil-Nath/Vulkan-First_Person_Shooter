@@ -30,6 +30,7 @@
 #include"VertexBuffer.hpp"
 #include"pipelineLayout.hpp"
 #include"graphicsPipeline.hpp"
+#include"DescriptorPool.hpp"
 
 
 
@@ -71,6 +72,7 @@ class App{
         std::unique_ptr<VertexBuffer>vertexbuffer_one;
         std::unique_ptr<PipelineLayout>pipelineLayout_one;
         std::unique_ptr<GraphicsPipeline>graphicsPipleine_one;
+        std::unique_ptr<DescriptorPool>descriptor_pool;
         
 };
 
