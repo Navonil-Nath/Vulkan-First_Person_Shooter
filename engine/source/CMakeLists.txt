@@ -33,7 +33,7 @@ set(SOURCES
 "./DescriptorSet/DescriptorSet.cpp"
 "./DescriptorSet/Descriptor/baseDescriptor.cpp"
 "./DescriptorSet/Descriptor/normalDescriptor.cpp"
-"./DescriptorSet/Descriptor/reflectioncubemapDescriptor.hpp"
+"./DescriptorSet/Descriptor/reflectioncubemapDescriptor.cpp"
 
 )
 

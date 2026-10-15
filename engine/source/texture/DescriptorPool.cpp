@@ -9,6 +9,9 @@ DescriptorPool::DescriptorPool(VkDevice device):m_device(device){
 
 }
 DescriptorPool::~DescriptorPool(){
+    if(m_Descriptorpool!=VK_NULL_HANDLE){
+        vkDestroyDescriptorPool(m_device,m_Descriptorpool,nullptr);
+    }
 
 }
 

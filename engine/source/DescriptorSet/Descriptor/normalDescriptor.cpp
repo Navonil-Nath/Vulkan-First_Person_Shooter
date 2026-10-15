@@ -1,6 +1,6 @@
 #include"normalDescriptor.hpp"
 
-void NormalDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet set,VkImageView baseImageView,VkImageView normalImageView,VkImageView MetallicRoughnessview,VkSampler sampler){
+void NormalDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet& set,VkImageView baseImageView,VkImageView normalImageView,VkImageView MetallicRoughnessview,VkSampler sampler){
     //binding =0 diffuse image
     VkDescriptorImageInfo diffuseImageInfo{};
     diffuseImageInfo.imageLayout=VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -42,12 +42,12 @@ void NormalDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet se
     MetallicRoughnessInfo.sampler=sampler;
 
     VkWriteDescriptorSet writeMetallicDescriptor{};
-    writeNormalDescriptor.sType=VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    writeNormalDescriptor.dstSet=set;
-    writeNormalDescriptor.dstBinding=2;
-    writeNormalDescriptor.descriptorType=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    writeNormalDescriptor.descriptorCount=1;
-    writeNormalDescriptor.pImageInfo=&MetallicRoughnessInfo;
+    writeMetallicDescriptor.sType=VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    writeMetallicDescriptor.dstSet=set;
+    writeMetallicDescriptor.dstBinding=2;
+    writeMetallicDescriptor.descriptorType=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    writeMetallicDescriptor.descriptorCount=1;
+    writeMetallicDescriptor.pImageInfo=&MetallicRoughnessInfo;
 
     vkUpdateDescriptorSets(Device,1,&writeMetallicDescriptor,0,nullptr);
 

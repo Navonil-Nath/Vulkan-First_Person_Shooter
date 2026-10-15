@@ -1,7 +1,7 @@
 #include"TextureSampler.hpp"
 
 
-TextureSampler::TextureSampler(VkDevice device,Sampler address=Sampler::Repeat):m_device(device){
+TextureSampler::TextureSampler(VkDevice device,Sampler address):m_device(device){
 
     CreateSampler(address);
 }

@@ -25,7 +25,7 @@ void DiffuseImage::CreateDescriptor(VkDevice device,VkDescriptorSet& set,VkBuffe
     //binding 1  will contain an array of descriptors each holding an VkImageView referencing to an VkImage 
 
     std::vector<VkDescriptorImageInfo> image_infos;
-    image_infos.resize(cubeImageViews.size());
+    image_infos.reserve(cubeImageViews.size());
 
     for(VkImageView view:cubeImageViews){
         VkDescriptorImageInfo info{};
