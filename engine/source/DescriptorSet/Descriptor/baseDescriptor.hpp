@@ -5,10 +5,11 @@
 #include<iostream>
 #include<vector>
 
-class DiffuseImage{
+class BaseDescriptor{
     public:
-        DiffuseImage(const DiffuseImage&)=delete;
-        DiffuseImage& operator=(const DiffuseImage&)=delete;
+        BaseDescriptor()=default;
+        BaseDescriptor(const BaseDescriptor&)=delete;
+        BaseDescriptor& operator=(const BaseDescriptor&)=delete;
 
         void CreateDescriptor(VkDevice device,VkDescriptorSet& set,VkBuffer uniformBuffer,const std::vector<VkImageView>& cubeImageViews,VkSampler cubeImagesSampler,VkImageView skyboxImageView,VkSampler skyboxSampler,VkImageView shadowMapView,VkSampler shadowMapSampler);
 

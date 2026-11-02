@@ -35,7 +35,7 @@
 #include"DescriptorSet.hpp"
 #include"DescriptorSetLayout.hpp"
 #include"baseDescriptor.hpp"
-#include"normalDescriptor.hpp"
+#include"TextureDescriptor.hpp"
 #include"reflectioncubemapDescriptor.hpp"
 
 
@@ -70,25 +70,32 @@ class App{
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
         std::unique_ptr<CommandBuffer>m_command_handle;
         std::unique_ptr<SyncObjects>m_sync_objects;
-        std::unique_ptr<DescriptorSetLayout>descriptorSetLayout_one;
-        std::unique_ptr<IndexBuffer>indexbuffer_one;
-        PushConstantObject pushconstant_one;
-        std::unique_ptr<StaggingBuffer>stagingbuffer_one;
-        std::unique_ptr<UniformBuffer>uniformbuffer_one;
-        std::unique_ptr<VertexBuffer>vertexbuffer_one;
-        std::unique_ptr<PipelineLayout>pipelineLayout_one;
-        std::unique_ptr<GraphicsPipeline>graphicsPipleine_one;
-        std::unique_ptr<DescriptorPool>descriptor_pool;
-        std::unique_ptr<TextureSampler>texture_sampler;
-        std::unique_ptr<DescriptorSet>baseDescriptor_Set;
-        std::unique_ptr<DescriptorSet>materialPropDescriptor_Set;
-        std::unique_ptr<DescriptorSet>reflectionCubeMap_Descriptor_Set;
 
-        std::unique_ptr<DiffuseImage> m_DiffuseImage;
-        std::unique_ptr<NormalDescriptor>m_NormalDescriptor;
-        std::unique_ptr<ReflectionDescriptor>m_ReflectionDescriptor;
-        //now whenver we need to create a descriptor just pass in the set and other parametes to the respective functions of these three above objects
+        //-----------global resources------------------------------------------------
+        std::unique_ptr<PipelineLayout>m_pipeline_layout;
+        std::vector<VkDescriptorSetLayout>activeLayouts; 
+        PushConstantObject pushConstant;
+        std::unique_ptr<DescriptorPool>m_Descriptor_Pool;
+        std::unique_ptr<TextureSampler>m_texture_sampler; 
+        std::unique_ptr<UniformBuffer>m_uniform_buffer;
+
+
+        //-------------global descriptor sets---------------------------------//
+
+
+        std::unique_ptr<DescriptorSetLayout>Basic_Descriptor_Set_Layout;//this set shall contain the uniform buffer,skybiox image view,cube's image view's and the shadow map image view
+        std::unique_ptr<DescriptorSet>Basic_Descriptor_Set;
+
+        //--------------descriptor assigning objects------------------------
+        //----cube--------------------------------------
+        std::unique_ptr<BaseDescriptor>m_base_Descriptor;
+   
+        std::unique_ptr<ReflectionDescriptor>m_reflection_Descriptor; 
+        //-----------------------------------------------
         
+        
+        //-----------------------------------------------------------------------------
+              
 };
 
 #endif
@@ -98,4 +105,5 @@ class App{
 now we have initilised the descriptor sets contains uniform buffer,skybox vkImage,the different textures of a cube-->at the set "baseDescriptor_Set"
 and the normal map,shadow map,base/diffuse map at the set -->"materialPropDescriptor_Set"
 and the reflection cubemap to hold the reflection image on the surface of a object at the set -->"reflectionCubeMap_Descriptor_Set"
+
 */

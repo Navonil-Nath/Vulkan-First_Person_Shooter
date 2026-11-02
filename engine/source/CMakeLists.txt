@@ -32,8 +32,9 @@ set(SOURCES
 "./texture/TextureSampler.cpp"
 "./DescriptorSet/DescriptorSet.cpp"
 "./DescriptorSet/Descriptor/baseDescriptor.cpp"
-"./DescriptorSet/Descriptor/normalDescriptor.cpp"
+"./DescriptorSet/Descriptor/TextureDescriptor.cpp"
 "./DescriptorSet/Descriptor/reflectioncubemapDescriptor.cpp"
+"./texture/imageLoader.cpp"
 
 )
 
@@ -65,6 +66,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./texture"
     "./DescriptorSet"
     "./DescriptorSet/Descriptor"
+    
     
 )
 

@@ -2,7 +2,7 @@
 #include"UniformBuffer.hpp"
 
 
-void DiffuseImage::CreateDescriptor(VkDevice device,VkDescriptorSet& set,VkBuffer uniformBuffer,const std::vector<VkImageView>& cubeImageViews,VkSampler cubeImagesSampler,VkImageView skyboxImageView,VkSampler skyboxSampler,VkImageView shadowMapView,VkSampler shadowMapSampler){
+void BaseDescriptor::CreateDescriptor(VkDevice device,VkDescriptorSet& set,VkBuffer uniformBuffer,const std::vector<VkImageView>& cubeImageViews,VkSampler cubeImagesSampler,VkImageView skyboxImageView,VkSampler skyboxSampler,VkImageView shadowMapView,VkSampler shadowMapSampler){
     //binding 0 uniform buffer(UniformBufferObject) ,this dewcriptor shall contain the uniform buffer at binding 0;
     VkDescriptorBufferInfo bufferInfo{};
     bufferInfo.buffer=uniformBuffer;

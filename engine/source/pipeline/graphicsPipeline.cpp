@@ -3,7 +3,7 @@
 #include"vertex.hpp"
 
 GraphicsPipeline::GraphicsPipeline(VkDevice device,VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent):m_device(device){
-    CreateGraphicsPipeline(device,renderpass,pipelineLayout,swapchainExtent);
+    CreateGraphicsPipeline(renderpass,pipelineLayout,swapchainExtent);
 }
 
 GraphicsPipeline::~GraphicsPipeline(){
@@ -13,8 +13,8 @@ GraphicsPipeline::~GraphicsPipeline(){
 
 }
 
-void GraphicsPipeline::CreateGraphicsPipeline(VkDevice device,VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent){
-    ShaderModule vertexModule(m_device,"base.vert.spv");
+void GraphicsPipeline::CreateGraphicsPipeline(VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent){
+    ShaderModule vertexModule(m_device,"base.vert.spv");  //since the spv files are in the .exe directory
     ShaderModule fragmentModule(m_device,"base.frag.spv");
 
     VkPipelineShaderStageCreateInfo vertexShaderstageInfo{};

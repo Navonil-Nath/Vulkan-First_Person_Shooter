@@ -6,6 +6,7 @@
 
 class ReflectionDescriptor{
     public:
+    ReflectionDescriptor()=default;
     ReflectionDescriptor(const ReflectionDescriptor&)=delete;
     ReflectionDescriptor& operator=(const ReflectionDescriptor&)=delete;
 

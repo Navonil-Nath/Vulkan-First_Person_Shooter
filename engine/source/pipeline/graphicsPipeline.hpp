@@ -18,7 +18,7 @@ class GraphicsPipeline{
 
     private:
         VkPipeline m_graphicsPipeline{VK_NULL_HANDLE};
-        void CreateGraphicsPipeline(VkDevice device,VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent);
+        void CreateGraphicsPipeline(VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent);
         VkDevice m_device{VK_NULL_HANDLE};
 
 };  

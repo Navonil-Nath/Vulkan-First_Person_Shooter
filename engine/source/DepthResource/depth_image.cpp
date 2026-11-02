@@ -68,6 +68,7 @@ void DepthResource::getDeviceMemory(){
     VkMemoryAllocateInfo allocateInfo{};
     allocateInfo.sType=VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     allocateInfo.memoryTypeIndex=findMemoryType(m_physicalDevice,requirements.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+    allocateInfo.allocationSize=requirements.size;
 
 
     if(vkAllocateMemory(m_Device,&allocateInfo,nullptr,&m_GpuMemory)!=VK_SUCCESS){

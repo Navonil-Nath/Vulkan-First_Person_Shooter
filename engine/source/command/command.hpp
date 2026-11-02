@@ -45,8 +45,8 @@ class CommandBuffer{
     private:
 
         VkCommandPool m_commandPool{VK_NULL_HANDLE};
-        uint32_t total_frames=0;
-        uint32_t QueueIndex=0;
+        uint32_t total_frames=0; //initial value
+        uint32_t QueueIndex=0; //initial value
         void CreateCommandpool(uint32_t queueIndex);
         VkDevice m_device{VK_NULL_HANDLE};
 

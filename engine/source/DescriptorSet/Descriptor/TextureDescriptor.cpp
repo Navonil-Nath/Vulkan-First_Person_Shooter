@@ -1,6 +1,6 @@
-#include"normalDescriptor.hpp"
+#include"TextureDescriptor.hpp"
 
-void NormalDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet& set,VkImageView baseImageView,VkImageView normalImageView,VkImageView MetallicRoughnessview,VkSampler sampler){
+void TextureDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet& set,VkImageView baseImageView,VkImageView normalImageView,VkImageView MetallicImageView,VkSampler sampler){
     //binding =0 diffuse image
     VkDescriptorImageInfo diffuseImageInfo{};
     diffuseImageInfo.imageLayout=VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -38,7 +38,7 @@ void NormalDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet& s
     //binding =2 metallic roughness value
     VkDescriptorImageInfo MetallicRoughnessInfo{};
     MetallicRoughnessInfo.imageLayout=VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    MetallicRoughnessInfo.imageView=MetallicRoughnessview;
+    MetallicRoughnessInfo.imageView=MetallicImageView;
     MetallicRoughnessInfo.sampler=sampler;
 
     VkWriteDescriptorSet writeMetallicDescriptor{};

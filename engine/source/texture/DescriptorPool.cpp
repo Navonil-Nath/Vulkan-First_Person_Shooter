@@ -20,7 +20,7 @@ void DescriptorPool::CreateDescriptorPool(){
 
     //specifying the maximum descriptors allowed
     //buffers
-    std::array<VkDescriptorPoolSize,2>poolSizes;
+    std::array<VkDescriptorPoolSize,2>poolSizes; //this defines the types of descriptors allowed to form from this
     poolSizes[0].type=VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[0].descriptorCount=500;
 
