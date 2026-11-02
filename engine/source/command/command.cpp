@@ -55,7 +55,10 @@ VkCommandBuffer CommandBuffer::beginSingleTimeCommand(){
     createInfo.commandBufferCount=1;
     
     VkCommandBuffer Command_Buffer{VK_NULL_HANDLE};
-
+    //allocating the single  buffer for recording
+    if(vkAllocateCommandBuffers(m_device,&createInfo,&Command_Buffer)!=VK_SUCCESS){
+        throw std::runtime_error("the single time command buffer cannot be allocated");
+    }
     VkCommandBufferBeginInfo allocate_createInfo{};
     //this will prepare the returned buffer by this function writable by the cpu
     allocate_createInfo.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -82,6 +85,8 @@ void CommandBuffer::endSingleTimeCommandBuffer(VkQueue queue,VkCommandBuffer com
     //prepare the queue 
 
     vkQueueSubmit(queue,1,&submitInfo,VK_NULL_HANDLE);
+    //make the gpu wait and not release the command buffer before the operation finishes
+    vkQueueWaitIdle(queue);
     vkFreeCommandBuffers(m_device,m_commandPool,1,&commandBuffer);
 
 

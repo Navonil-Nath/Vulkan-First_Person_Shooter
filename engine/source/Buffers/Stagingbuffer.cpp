@@ -29,7 +29,7 @@ uint32_t StaggingBuffer::findMemoryIndex(uint32_t typeFilter,VkMemoryPropertyFla
 
     for(uint32_t i=0;i<memoryProperties.memoryTypeCount;++i){
         bool typeMatches = typeFilter & (1<<i);
-        bool prop_available=(memoryProperties.memoryTypes[i].propertyFlags==properties);
+        bool prop_available=((memoryProperties.memoryTypes[i].propertyFlags & properties)==properties);
         if(typeMatches && prop_available){
             return i;
         }
@@ -72,7 +72,7 @@ void StaggingBuffer::CreateBuffer(){
     //stagging stage of the gpu memeory
 
     VkMemoryRequirements requirements{};
-    vkGetBufferMemoryRequirements(m_device,m_staggingBuffer,nullptr);
+    vkGetBufferMemoryRequirements(m_device,m_staggingBuffer,&requirements);
 
     //now check if memeory is available
     if(requirements.size==0){

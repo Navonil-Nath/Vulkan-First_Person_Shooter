@@ -14,7 +14,7 @@ LoadedSkyBoxImage::~LoadedSkyBoxImage(){
 LoadedImage ImageLoader::loadTexture(std::string path){
     LoadedImage image{};
     image.pixels=stbi_load(path.c_str(),&image.width,&image.height,&image.channels,STBI_rgb_alpha); //STBI_rgb_aplha means 4 channels
-    if(image.pixels==nullptr || image.width<0 || image.height<0){
+    if(image.pixels==nullptr || image.width<=0 || image.height<=0){
         throw std::runtime_error("the texture cannot be loaded in the path :"+ path);
     }
     image.channels=4;
@@ -24,7 +24,7 @@ LoadedImage ImageLoader::loadTexture(std::string path){
 LoadedSkyBoxImage ImageLoader::loadSkyboxTexture(std::string path){
     LoadedSkyBoxImage image{};
     image.pixels_skybox=stbi_loadf(path.c_str(),&image.width,&image.height,&image.channels,STBI_rgb_alpha);
-    if(image.pixels_skybox==nullptr || image.width<0 || image.height<0){
+    if(image.pixels_skybox==nullptr || image.width<=0 || image.height<=0){
         throw std::runtime_error("the texture cannot be loaded from the path :"+ path);
     }
     image.channels=4;
@@ -40,6 +40,8 @@ LoadedImage::LoadedImage(LoadedImage&& other)noexcept:width(other.width),height(
     other.height=0;
     other.channels=0;
     other.pixels=nullptr;
+
+    
 }
 
 //describing the move assignment operator
@@ -59,6 +61,7 @@ LoadedImage& LoadedImage::operator=(LoadedImage&& other)noexcept{
         other.channels=0;
         other.pixels=nullptr;
     }
+    return *this;
 
 }
 
@@ -88,6 +91,7 @@ LoadedSkyBoxImage& LoadedSkyBoxImage::operator=(LoadedSkyBoxImage&& other)noexce
         other.channels=0;
         other.pixels_skybox=nullptr;
     }
+    return *this;
 }
 
 

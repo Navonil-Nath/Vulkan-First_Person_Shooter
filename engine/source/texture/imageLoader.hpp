@@ -52,6 +52,7 @@ struct LoadedSkyBoxImage{
 };
 
 class ImageLoader{
+    public:
     static LoadedImage loadTexture(std::string path);  
 
     static LoadedSkyBoxImage loadSkyboxTexture(std::string path);
