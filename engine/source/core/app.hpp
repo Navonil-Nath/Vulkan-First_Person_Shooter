@@ -37,6 +37,8 @@
 #include"baseDescriptor.hpp"
 #include"TextureDescriptor.hpp"
 #include"reflectioncubemapDescriptor.hpp"
+#include"TextureImages.hpp"
+#include"makeimages&views.hpp"
 
 
 
@@ -70,7 +72,9 @@ class App{
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
         std::unique_ptr<CommandBuffer>m_command_handle;
         std::unique_ptr<SyncObjects>m_sync_objects;
-
+        //------------------------
+        //std::unique_ptr<Texture_Image>image //to be declared once evry texture image
+        //------------------------
         //-----------global resources------------------------------------------------
         std::unique_ptr<PipelineLayout>m_pipeline_layout;
         std::vector<VkDescriptorSetLayout>activeLayouts; 
@@ -78,7 +82,7 @@ class App{
         std::unique_ptr<DescriptorPool>m_Descriptor_Pool;
         std::unique_ptr<TextureSampler>m_texture_sampler; 
         std::unique_ptr<UniformBuffer>m_uniform_buffer;
-
+        std::unique_ptr<CreateImage>m_image_and_view_maker;
 
         //-------------global descriptor sets---------------------------------//
 

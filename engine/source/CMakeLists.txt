@@ -35,6 +35,8 @@ set(SOURCES
 "./DescriptorSet/Descriptor/TextureDescriptor.cpp"
 "./DescriptorSet/Descriptor/reflectioncubemapDescriptor.cpp"
 "./texture/imageLoader.cpp"
+"./texture/TextureImages.cpp"
+"./texture/makeimages&views.cpp"
 
 )
 

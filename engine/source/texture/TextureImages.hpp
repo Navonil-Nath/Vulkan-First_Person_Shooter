@@ -17,21 +17,17 @@ class Texture_Image{
     VkImage get_image(){return m_image;}
     VkImageView get_image_view(){return m_image_view;}
 
-    void UploadFromBuffer(CommandBuffer& bufferHandle,VkQueue queue,VkBuffer staggingBuffer);
-    void copyBufferData(CommandBuffer& bufferHandle,VkQueue queue,VkBuffer staggingBuffer);
-    void TransitionLayout(CommandBuffer& bufferHandle,VkQueue queue,VkImageLayout oldLayout,VkImageLayout newLayout);
-
     private:
 
     void CreateImage(VkPhysicalDevice device);
     void CreateImageViews();
-    uint32_t findmemeoryType(VkPhysicalDevice device,uint32_t typeFilter,VkMemoryPropertyFlags flags);
+    uint32_t findMemeoryType(VkPhysicalDevice device,uint32_t typeFilter,VkMemoryPropertyFlags flags);
     
     VkDevice m_device{VK_NULL_HANDLE};
     VkPhysicalDevice m_physical_device{VK_NULL_HANDLE};
     VkImage m_image{VK_NULL_HANDLE};
     VkImageView m_image_view{VK_NULL_HANDLE};
-    VkDeviceMemory m_device_memeory{VK_NULL_HANDLE};
+    VkDeviceMemory m_device_memory{VK_NULL_HANDLE};
     uint32_t m_texture_width{0};
     uint32_t m_texture_height{0};
     VkFormat m_format; 
