@@ -15,3 +15,8 @@ class ReflectionDescriptor{
 };
 
 #endif
+/*
+  This descriptor contains the VkImage to the memeory which will contain the reflection images on the surface ofa reflecting object
+  ->to be declared once per reflecting object
+
+*/

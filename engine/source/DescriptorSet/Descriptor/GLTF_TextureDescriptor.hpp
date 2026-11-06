@@ -1,5 +1,5 @@
-#ifndef NORMAL_DESCRIPTOR_CLASS
-#define NORMAL_DESCRIPTOR_CLASS
+#ifndef GLTF_TEXTURE_DESCRIPTOR_CLASS
+#define GLTF_TEXTURE_DESCRIPTOR_CLASS
 
 #include<vulkan/vulkan.h>
 #include<iostream>

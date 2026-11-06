@@ -40,3 +40,14 @@ void TextureSampler::CreateSampler(Sampler address){
 
 }
 
+/*
+
+                                    Theory
+
+Although the texture images that we download will be of different resolution and sizes but we can still use it to 
+map them to our defined structure <3d object> .Beacuse here we will come the power of vulkan ,
+in the TextureSampler we wrote above we put .unNormalisedCoordinates =VK_FALSE that means vulkan will tell the gpu 
+to consider all the images to the frame of 0,0 to 1,0 irrespective of their sizes and resolution 
+
+
+*/

@@ -94,4 +94,5 @@ uint32_t Texture_Image::findMemeoryType(VkPhysicalDevice device,uint32_t typeFil
             return i;
         }
     }
+    throw std::runtime_error("cannot find the required memeory type ");
 }

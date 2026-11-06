@@ -49,7 +49,7 @@ void CreateImage::TransitionLayout(VkImage image,CommandBuffer& bufferHandle,VkQ
     }
     else if(oldLayout==VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && newLayout==VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL){
         Barrier.srcAccessMask=VK_ACCESS_TRANSFER_WRITE_BIT;
-        Barrier.dstAccessMask=VK_ACCESS_SHADER_WRITE_BIT;
+        Barrier.dstAccessMask=VK_ACCESS_SHADER_READ_BIT;
         sourceStage=VK_PIPELINE_STAGE_TRANSFER_BIT;
         dstStage=VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT; //telling the gpu that the memeory will now to be read by the fragment shader
 
@@ -88,7 +88,7 @@ void CreateImage::copyBufferData(VkImage image,CommandBuffer& bufferHandle,VkQue
     copyregion.imageSubresource.baseArrayLayer=0;
     copyregion.imageSubresource.layerCount=1;
     copyregion.imageOffset={0,0,0}; //start writting from the very beginig of the vkimage
-    copyregion.imageExtent={image_Object.m_texture_width,image_Object.m_texture_height};
+    copyregion.imageExtent={image_Object.m_texture_width,image_Object.m_texture_height,1};
 
     //now write the copy operation to the comand buffer for it to be later executed by the gpu when submitted to the queue
     vkCmdCopyBufferToImage(

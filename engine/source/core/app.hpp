@@ -34,8 +34,11 @@
 #include"TextureSampler.hpp"
 #include"DescriptorSet.hpp"
 #include"DescriptorSetLayout.hpp"
-#include"baseDescriptor.hpp"
-#include"TextureDescriptor.hpp"
+#include"cubeTextureDescriptor.hpp"
+#include"GLTF_TextureDescriptor.hpp"
+#include"shadowMapDescriptor.hpp"
+#include"skyboxDescriptor.hpp"
+#include"uniformBufferDescriptor.hpp"
 #include"reflectioncubemapDescriptor.hpp"
 #include"TextureImages.hpp"
 #include"makeimages&views.hpp"
@@ -83,6 +86,9 @@ class App{
         std::unique_ptr<TextureSampler>m_texture_sampler; 
         std::unique_ptr<UniformBuffer>m_uniform_buffer;
         std::unique_ptr<CreateImage>m_image_and_view_maker;
+        //--------global directional light--------------------
+        
+        //----------------------------------------------------
 
         //-------------global descriptor sets---------------------------------//
 

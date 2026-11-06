@@ -1,4 +1,4 @@
-#include"TextureDescriptor.hpp"
+#include"GLTF_TextureDescriptor.hpp"
 
 void TextureDescriptor::CreateNormalDescriptor(VkDevice Device,VkDescriptorSet& set,VkImageView baseImageView,VkImageView normalImageView,VkImageView MetallicImageView,VkSampler sampler){
     //binding =0 diffuse image
