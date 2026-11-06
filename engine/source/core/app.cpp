@@ -21,47 +21,48 @@ App::App(){
     m_texture_sampler=std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::Repeat);
     m_uniform_buffer=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
     m_image_and_view_maker=std::make_unique<CreateImage>(); //to be used each time tansition operations to be done on the memory
-    //-------------basic descriptor set---------------------------------------------------------------------
-    std::vector<VkDescriptorSetLayoutBinding> basic_descriptor_bindings(4);
 
-    //binding 0 ->it shall contain descriptor pointing to the UniformBufferObject in the gpu memeory
-    basic_descriptor_bindings[0].binding=0;
-    basic_descriptor_bindings[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    basic_descriptor_bindings[0].descriptorCount=1;
-    basic_descriptor_bindings[0].stageFlags=VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
-    basic_descriptor_bindings[0].pImmutableSamplers=nullptr; //their is no sampler for the buffer data
+    //--------------cube-------------------------------
+   
+
+    //forming the imageviews and putting data in memeory
+    for(const std::string& path: cubeTexturesPath){
+        LoadedImage rawImage=ImageLoader::loadTexture(path);
+        VkDeviceSize imageSize=static_cast<VkDeviceSize>(rawImage.width,rawImage.height*4);
+
+        //now we need to copy this image to the stagging buffer
+        StaggingBuffer stagging_buffer(m_logical_device->get(),m_physical_Device->get(),rawImage.pixels,imageSize);
+
+        std::unique_ptr<Texture_Image> texture=std::make_unique<Texture_Image>(m_logical_device->get(),m_physical_Device->get(),static_cast<uint32_t>(rawImage.width),static_cast<uint32_t>(rawImage.height),VK_FORMAT_R8G8B8A8_SRGB);
+
+        m_image_and_view_maker->UploadFromBuffer(texture->get_image(),*m_command_handle,m_logical_device->getQueue(),stagging_buffer.getBuffer(),*texture);
+        m_cube_textures_imageViews.push_back(texture->get_image_view());
+
+        m_cube_textures.push_back(std::move(texture));
+        
+    }
+    
+    //now form the descriptor sets
+
+    std::vector<VkDescriptorSetLayoutBinding>m_cube_descriptor_layout_Bindings;
+    m_cube_descriptor_layout_Bindings.resize(1);
+    m_cube_descriptor_layout_Bindings[0].binding=0;
+    m_cube_descriptor_layout_Bindings[0].descriptorType=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    m_cube_descriptor_layout_Bindings[0].descriptorCount=6;
+    m_cube_descriptor_layout_Bindings[0].stageFlags=VK_SHADER_STAGE_FRAGMENT_BIT;
+    m_cube_descriptor_layout_Bindings[0].pImmutableSamplers=nullptr;
+    
+
+    cube_texture_layout=std::make_unique<DescriptorSetLayout>(m_logical_device->get(),m_cube_descriptor_layout_Bindings);
+    cube_descriptor_set=std::make_unique<DescriptorSet>(m_logical_device->get(),cube_texture_layout->get(),m_Descriptor_Pool->get());
+    //now fill the set wtih the descriptors
+    m_cube_texture_descriptor=std::make_unique<cubeTextureDescriptor>();
+
+    m_cube_texture_descriptor->createTextureDescriptor(m_logical_device->get(),cube_descriptor_set->get(),m_texture_sampler->get(),m_cube_textures_imageViews);
+
+    //----------------------cube---------------------------
 
 
-    //binding 1 -->it shall contain the array of descriptors each containing a textures for the cube
-    basic_descriptor_bindings[1].binding=1;
-    basic_descriptor_bindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    basic_descriptor_bindings[1].descriptorCount=6; //one descriptor holding one texture image view
-    basic_descriptor_bindings[1].stageFlags= VK_SHADER_STAGE_FRAGMENT_BIT;
-    basic_descriptor_bindings[1].pImmutableSamplers=nullptr;
-
-
-    //binding 2 -->it shall contain the shadow depth image view
-    basic_descriptor_bindings[2].binding=2;
-    basic_descriptor_bindings[2].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    basic_descriptor_bindings[2].descriptorCount=1;
-    basic_descriptor_bindings[2].stageFlags= VK_SHADER_STAGE_FRAGMENT_BIT;
-    basic_descriptor_bindings[2].pImmutableSamplers=nullptr;
-
-    //binding 3--> it shall contain the skybox cubemap image view
-
-    basic_descriptor_bindings[3].binding=3;
-    basic_descriptor_bindings[3].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    basic_descriptor_bindings[3].descriptorCount=1;
-    basic_descriptor_bindings[3].stageFlags=VK_SHADER_STAGE_FRAGMENT_BIT;
-    basic_descriptor_bindings[3].pImmutableSamplers=nullptr;
-
-    Basic_Descriptor_Set_Layout=std::make_unique<DescriptorSetLayout>(m_logical_device->get(),basic_descriptor_bindings);
-    Basic_Descriptor_Set=std::make_unique<DescriptorSet>(m_logical_device->get(),Basic_Descriptor_Set_Layout->get(),m_Descriptor_Pool->get());
-
-
-
-    //--vector containing all the layouts----------------------
-    activeLayouts.push_back(Basic_Descriptor_Set_Layout->get());
 
     //---------pipeline layout-----
     m_pipeline_layout=std::make_unique<PipelineLayout>(m_logical_device->get(),activeLayouts); //set0-->Basic_Descriptor_Set

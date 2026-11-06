@@ -42,6 +42,7 @@
 #include"reflectioncubemapDescriptor.hpp"
 #include"TextureImages.hpp"
 #include"makeimages&views.hpp"
+#include"imageLoader.hpp"
 
 
 
@@ -86,25 +87,31 @@ class App{
         std::unique_ptr<TextureSampler>m_texture_sampler; 
         std::unique_ptr<UniformBuffer>m_uniform_buffer;
         std::unique_ptr<CreateImage>m_image_and_view_maker;
-        //--------global directional light--------------------
-        
-        //----------------------------------------------------
 
-        //-------------global descriptor sets---------------------------------//
-
-
-        std::unique_ptr<DescriptorSetLayout>Basic_Descriptor_Set_Layout;//this set shall contain the uniform buffer,skybiox image view,cube's image view's and the shadow map image view
-        std::unique_ptr<DescriptorSet>Basic_Descriptor_Set;
-
-        //--------------descriptor assigning objects------------------------
-        //----cube--------------------------------------
-        std::unique_ptr<BaseDescriptor>m_base_Descriptor;
-   
-        std::unique_ptr<ReflectionDescriptor>m_reflection_Descriptor; 
         //-----------------------------------------------
+
+        //-------cube ---------------------------------
+        std::vector<std::unique_ptr<Texture_Image>>m_cube_textures;
+        std::vector<VkImageView>m_cube_textures_imageViews;
+        std::unique_ptr<DescriptorSet>cube_descriptor_set;
+        const std::vector<std::string>cubeTexturesPath={
+            "./Resources/cube_textures/face_one.png",
+            "./Resources/cube_textures/face_two.png",
+            "./Resources/cube_textures/face_three.png",
+            "./Resources/cube_textures/face_four.png",
+            "./Resources/cube_textures/face_five.png",
+            "./Resources/cube_textures/face_six.png"
+
+        };
+
+        std::unique_ptr<DescriptorSetLayout>cube_texture_layout;
+
+        std::unique_ptr<cubeTextureDescriptor>m_cube_texture_descriptor;
+
         
-        
-        //-----------------------------------------------------------------------------
+
+
+        //-----------------------------------------------
               
 };
 

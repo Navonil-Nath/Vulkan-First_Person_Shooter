@@ -14,7 +14,7 @@ class DescriptorSet{
 
     DescriptorSet(const DescriptorSet&)=delete;
     DescriptorSet& operator=(const DescriptorSet&)=delete;
-    VkDescriptorSet get(){return m_DescriptorSet;}
+    VkDescriptorSet& get() {return m_DescriptorSet;}
 
     private:
     VkDevice m_device{VK_NULL_HANDLE};
