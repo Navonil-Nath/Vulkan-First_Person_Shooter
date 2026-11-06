@@ -37,6 +37,9 @@ void UniformBuffer::CreateBuffer(){
     }
 
     vkBindBufferMemory(m_device,m_buffer,m_memory,0); //i forgot to iclude this part in the earlier video
+    
+    UniformBufferObject bufferObject;
+    Upload(bufferObject);
 }
 
 uint32_t UniformBuffer::findMemory(uint32_t typeFilter,VkMemoryPropertyFlags flags){

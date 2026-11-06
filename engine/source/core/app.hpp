@@ -108,11 +108,17 @@ class App{
 
         std::unique_ptr<cubeTextureDescriptor>m_cube_texture_descriptor;
 
+        //----------------cube-------------------------------
+              
+        //----------------uniformbuffer descriptor--------------
+        std::unique_ptr<DescriptorSet>uniform_buffer_set;
+        std::unique_ptr<DescriptorSetLayout>uniform_descriptor_set_layout;
+        std::unique_ptr<UniformBufferDescriptor>uniform_descriptor_creator;
+
+        std::vector<VkDescriptorSetLayoutBinding>uniform_buffer_bindings;
         
 
-
-        //-----------------------------------------------
-              
+        //-----------------------------------------------------
 };
 
 #endif

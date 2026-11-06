@@ -19,5 +19,5 @@ this class shall establish a descriptor set containing a image view which shall 
 shaodw depth data wrt to an illuminating object eg a 'light source' this will then be processed by the renderer into the main
 frambeuffer depth image to cast regions of darkness thereby creating our shadows
 
-this descriptor should be created for every illuminating objects
+this descriptor should be created once for every illuminating objects
 */

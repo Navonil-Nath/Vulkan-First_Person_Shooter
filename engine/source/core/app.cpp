@@ -21,7 +21,7 @@ App::App(){
     m_texture_sampler=std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::Repeat);
     m_uniform_buffer=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
     m_image_and_view_maker=std::make_unique<CreateImage>(); //to be used each time tansition operations to be done on the memory
-
+    
     //--------------cube-------------------------------
    
 
@@ -60,9 +60,30 @@ App::App(){
 
     m_cube_texture_descriptor->createTextureDescriptor(m_logical_device->get(),cube_descriptor_set->get(),m_texture_sampler->get(),m_cube_textures_imageViews);
 
+    activeLayouts.push_back(cube_texture_layout->get());
+
     //----------------------cube---------------------------
+    //---------uniformBufferDescriptor---------------------
 
+    uniform_buffer_bindings.resize(1);
+    uniform_buffer_bindings[0].binding=0;
+    uniform_buffer_bindings[0].descriptorType=VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    uniform_buffer_bindings[0].descriptorCount=1;
+    uniform_buffer_bindings[0].stageFlags=VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    uniform_buffer_bindings[0].pImmutableSamplers=nullptr;
 
+    uniform_descriptor_set_layout=std::make_unique<DescriptorSetLayout>(m_logical_device->get(),uniform_buffer_bindings);
+    uniform_buffer_set=std::make_unique<DescriptorSet>(m_logical_device->get(),uniform_descriptor_set_layout->get(),m_Descriptor_Pool->get());
+
+    //fill the set with the descriptors
+    uniform_descriptor_creator=std::make_unique<UniformBufferDescriptor>();
+    uniform_descriptor_creator->CreateUniformBufferDescriptor(m_logical_device->get(),uniform_buffer_set->get(),m_uniform_buffer->get());
+    //--------------uniformBufferDescriptor---------------------------------------
+
+    //------skybox descriptor set creating-----------------------
+    
+
+    //------skyBox descriptor set creating-----------------------
 
     //---------pipeline layout-----
     m_pipeline_layout=std::make_unique<PipelineLayout>(m_logical_device->get(),activeLayouts); //set0-->Basic_Descriptor_Set
