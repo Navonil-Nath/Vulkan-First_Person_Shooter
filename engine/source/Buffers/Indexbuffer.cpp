@@ -1,4 +1,4 @@
-#include"IndexBuffer.hpp"
+#include"Indexbuffer.hpp"
 
 IndexBuffer::IndexBuffer(VkDevice device,VkPhysicalDevice physicalDevice,std::vector<uint32_t>& indices){
     m_indexCount=indices.size();

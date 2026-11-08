@@ -1,5 +1,5 @@
 #ifndef SWAPCHAIN_SUPPORT
-#define SWQPCHAON_SUPPORT
+#define SWAPCHAIN_SUPPORT
 #include<vulkan/vulkan.h>
 #include<vector>
 

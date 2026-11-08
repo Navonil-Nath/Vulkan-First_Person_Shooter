@@ -1,7 +1,7 @@
 #include"TextureImages.hpp"
 #include<stdexcept>
 
-Texture_Image::Texture_Image(VkDevice device,VkPhysicalDevice physical_device,uint32_t height,uint32_t width,VkFormat format):m_device(device),m_format(format),m_texture_width(width),m_texture_height(height),m_physical_device(physical_device){
+Texture_Image::Texture_Image(VkDevice device,VkPhysicalDevice physical_device,uint32_t width,uint32_t height,VkFormat format):m_device(device),m_format(format),m_texture_width(width),m_texture_height(height),m_physical_device(physical_device){
 
     CreateImage(m_physical_device);
     CreateImageViews();

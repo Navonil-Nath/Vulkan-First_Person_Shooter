@@ -51,9 +51,9 @@ void GraphicsPipeline::CreateGraphicsPipeline(VkRenderPass renderpass,VkPipeline
     inputAssembly.topology=VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
 
-    VkViewport viewports{0.0f,0.0f,static_cast<uint32_t>(swapchainExtent.width),static_cast<uint32_t>(swapchainExtent.height),0.0f,1.0f};
+    VkViewport viewports{0.0f,0.0f,static_cast<float>(swapchainExtent.width),static_cast<float>(swapchainExtent.height),0.0f,1.0f};
     //determines the mapping of the game window to the glfw window
-    VkRect2D window_fit{{0.0f,0.0f},swapchainExtent}; //determines from where the game window should start in the glfw window
+    VkRect2D window_fit{{0,0},swapchainExtent}; //determines from where the game window should start in the glfw window
     
     VkPipelineViewportStateCreateInfo  viewportGame{};
     viewportGame.sType=VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;

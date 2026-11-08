@@ -1,4 +1,4 @@
-#include"VertexBuffer.hpp"
+#include"Vertexbuffer.hpp"
 #include<stdexcept>
 
 VertexBuffer::VertexBuffer(VkPhysicalDevice physicalDevice,VkDevice device,std::vector<Vertex>& vertices):m_device(device),m_physicalDevice(physicalDevice)

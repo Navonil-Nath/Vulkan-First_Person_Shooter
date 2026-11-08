@@ -11,7 +11,7 @@ PhysicalDevice::PhysicalDevice(VkInstance instance,VkSurfaceKHR surface){
     std::cout<<"the selected device is "<<properties.deviceName<<std::endl;
 }
 
-
+PhysicalDevice::~PhysicalDevice()=default;
 
 bool PhysicalDevice::isDeviceSuitable(VkPhysicalDevice device,VkSurfaceKHR surface){
     auto details=SwapchainSupport::querry(device,surface);
@@ -35,10 +35,19 @@ VkPhysicalDevice PhysicalDevice::CreatePhysicalDevice(VkInstance instance,VkSurf
 
     for(const auto& device:all_devices){
         if(isDeviceSuitable(device,surface)){
-            selected_Device=device;
-            break;
+            
+            VkPhysicalDeviceProperties properties{};
+            vkGetPhysicalDeviceProperties(device,&properties);
+            if(properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU){
+                selected_Device=device;
+                break;
+            }
+                
         }
-        continue;
+        if(selected_Device == VK_NULL_HANDLE){
+            selected_Device=device;
+        }
+    
     }
     
 

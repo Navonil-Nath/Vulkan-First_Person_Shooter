@@ -10,7 +10,7 @@
 
 class ShaderModule{
     public: 
-    ShaderModule(VkDevice device,std::string& filePath);
+    ShaderModule(VkDevice device,const std::string& filePath);
     ~ShaderModule();
 
     ShaderModule(const ShaderModule&)=delete;
@@ -22,7 +22,7 @@ class ShaderModule{
     private:    
     VkDevice m_device{VK_NULL_HANDLE};
     VkShaderModule m_shaderModule{VK_NULL_HANDLE};
-    static std::vector<char>ReadFile(std::string& filePath); //this will load the bytecode form the disk to a vector 
+    static std::vector<char>ReadFile(const std::string& filePath); //this will load the bytecode form the disk to a vector 
     void CreateShaderModule(const std::vector<char>& code);
 };
 

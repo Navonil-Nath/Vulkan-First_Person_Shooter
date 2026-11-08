@@ -1,6 +1,6 @@
 #include"sync.hpp"
 
-SyncObjects::SyncObjects(int maxFrames,VkDevice device):m_device(m_device){
+SyncObjects::SyncObjects(int maxFrames,VkDevice device):m_device(device){
     CreateSyncObject(maxFrames);
 }
 
@@ -35,7 +35,7 @@ void SyncObjects::CreateSyncObject(int maxFrames){
     fenceInfo.flags=VK_FENCE_CREATE_SIGNALED_BIT;
 
     for(size_t i=0;i<maxFrames;++i){
-        if(!vkCreateSemaphore(m_device,&semaphoreCreateInfo,nullptr,&m_imageAvailableSemaphore[i]) || !vkCreateSemaphore(m_device,&semaphoreCreateInfo,nullptr,&m_imagefinishedRenderingSemaphore[i]) || !vkCreateFence(m_device,&fenceInfo,nullptr,&m_cpugpufence[i])){
+        if(vkCreateSemaphore(m_device,&semaphoreCreateInfo,nullptr,&m_imageAvailableSemaphore[i])!=VK_SUCCESS || vkCreateSemaphore(m_device,&semaphoreCreateInfo,nullptr,&m_imagefinishedRenderingSemaphore[i])!=VK_SUCCESS || vkCreateFence(m_device,&fenceInfo,nullptr,&m_cpugpufence[i])!=VK_SUCCESS){
             throw std::runtime_error("failled to initilase the semaphores and the fences");
         }
     }

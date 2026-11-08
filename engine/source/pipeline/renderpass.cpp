@@ -37,7 +37,8 @@ void RenderPass::CreateRenderPass(VkFormat colorFormat,VkFormat depthFormat){
 
     //give the desription of the depth image
 
-    VkAttachmentDescription depthAttachment;
+    VkAttachmentDescription depthAttachment{};
+    depthAttachment.flags=0;//<--mandatory
     depthAttachment.format=depthFormat;
     depthAttachment.samples=VK_SAMPLE_COUNT_1_BIT;
     depthAttachment.loadOp=VK_ATTACHMENT_LOAD_OP_CLEAR; //ie clear the image off the data from the previous frae to be used by the next frame

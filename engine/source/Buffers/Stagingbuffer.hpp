@@ -1,5 +1,5 @@
 #ifndef STAGGING_BUFFER_CLASSS
-#define STAGGING_BUFFER_CLASS
+#define STAGGING_BUFFER_CLASSS
 #include<iostream>
 #include<vulkan/vulkan.h>
 /*

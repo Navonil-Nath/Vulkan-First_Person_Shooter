@@ -28,7 +28,7 @@ App::App(){
     //forming the imageviews and putting data in memeory
     for(const std::string& path: cubeTexturesPath){
         LoadedImage rawImage=ImageLoader::loadTexture(path);
-        VkDeviceSize imageSize=static_cast<VkDeviceSize>(rawImage.width,rawImage.height*4);
+        VkDeviceSize imageSize=static_cast<VkDeviceSize>(rawImage.width*rawImage.height*4);
 
         //now we need to copy this image to the stagging buffer
         StaggingBuffer stagging_buffer(m_logical_device->get(),m_physical_Device->get(),rawImage.pixels,imageSize);
@@ -78,17 +78,43 @@ App::App(){
     //fill the set with the descriptors
     uniform_descriptor_creator=std::make_unique<UniformBufferDescriptor>();
     uniform_descriptor_creator->CreateUniformBufferDescriptor(m_logical_device->get(),uniform_buffer_set->get(),m_uniform_buffer->get());
+    activeLayouts.push_back(uniform_descriptor_set_layout->get());
+
     //--------------uniformBufferDescriptor---------------------------------------
 
     //------skybox descriptor set creating-----------------------
     
+     skybox_texture_sampler = std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::ClampToEdge);
+     LoadedSkyBoxImage raw_skybox_Image=ImageLoader::loadSkyboxTexture(skyBoxTexturePath);
+     VkDeviceSize byte_size=static_cast<VkDeviceSize>(raw_skybox_Image.width*raw_skybox_Image.height)*4*sizeof(float);
+     //the stb_image assigns 4 floats per pixel
+     
+     //put the image data asa 1d buffer to the stagging buffer
+     StaggingBuffer skybox_stagging_buffer(m_logical_device->get(),m_physical_Device->get(),raw_skybox_Image.pixels_skybox,byte_size);
+     //assign the vram memory slot woth image and image view
+     skybox_image_and_view=std::make_unique<Texture_Image>(m_logical_device->get(),m_physical_Device->get(),static_cast<uint32_t>(raw_skybox_Image.width),static_cast<uint32_t>(raw_skybox_Image.height),VK_FORMAT_R32G32B32A32_SFLOAT);
+     skybox_descriptor_creator=std::make_unique<SkyBoxDescriptor>();
+     m_image_and_view_maker->UploadFromBuffer(skybox_image_and_view->get_image(),*m_command_handle,m_logical_device->getQueue(),skybox_stagging_buffer.getBuffer(),*skybox_image_and_view);
+        //aassing the bindings for the descriptor set
+     skybox_layout_bindings.resize(1);
+     skybox_layout_bindings[0].binding=0;
+     skybox_layout_bindings[0].descriptorType=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+     skybox_layout_bindings[0].descriptorCount=1;
+     skybox_layout_bindings[0].stageFlags=VK_SHADER_STAGE_FRAGMENT_BIT;
+     skybox_layout_bindings[0].pImmutableSamplers=nullptr;
 
-    //------skyBox descriptor set creating-----------------------
+     skybox_descriptorSet_layout=std::make_unique<DescriptorSetLayout>(m_logical_device->get(),skybox_layout_bindings);
+
+     skybox_descriptor_set=std::make_unique<DescriptorSet>(m_logical_device->get(),skybox_descriptorSet_layout->get(),m_Descriptor_Pool->get());
+     //fill the descritor set woth the descriptor
+     skybox_descriptor_creator->CreateSkyBoxDescriptor(m_logical_device->get(),skybox_texture_sampler->get(),skybox_image_and_view->get_image_view(),skybox_descriptor_set->get());
+
+    activeLayouts.push_back(skybox_descriptorSet_layout->get());
+    //------skyBox descriptor set creating------------------------>
 
     //---------pipeline layout-----
     m_pipeline_layout=std::make_unique<PipelineLayout>(m_logical_device->get(),activeLayouts); //set0-->Basic_Descriptor_Set
 
-   
 
 }
 

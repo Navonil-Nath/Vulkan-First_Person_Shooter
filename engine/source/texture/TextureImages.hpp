@@ -8,7 +8,7 @@
 class Texture_Image{
     public:
     friend class CreateImage;
-    Texture_Image(VkDevice device,VkPhysicalDevice physical_device,uint32_t height,uint32_t widht,VkFormat format);
+    Texture_Image(VkDevice device,VkPhysicalDevice physical_device,uint32_t width,uint32_t height,VkFormat format);
     //format == VK_FORMAT_R8G8B8A8_SRGB for albedo images and VK_FORMAT_R8G8_UNIFORM for the normal and roughness images
     ~Texture_Image();
 

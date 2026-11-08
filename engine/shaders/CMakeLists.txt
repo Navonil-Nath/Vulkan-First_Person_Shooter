@@ -4,8 +4,8 @@ find_program(GLSLC glslc HINTS  "$ENV{VULKAN_SDK}/Bin")
 if(GLSLC)
     add_custom_command(
         TARGET Kitten_Engine POST_BUILD
-        COMMAND ${GLSLC} ${CMAKE_CURRENT_SOURCE_DIR}/engine/shaders/base.vert -o $<TARGET_FILE_DIR:Kitten_Engine>/base.vert.spv
-        COMMAND ${GLSLC} ${CMAKE_CURRENT_SOURCE_DIR}/engine/shaders/base.frag -o $<TARGET_FILE_DIR:Kitten_Engine>/base.frag.spv
+        COMMAND ${GLSLC} ${CMAKE_CURRENT_SOURCE_DIR}/base.vert -o $<TARGET_FILE_DIR:Kitten_Engine>/base.vert.spv
+        COMMAND ${GLSLC} ${CMAKE_CURRENT_SOURCE_DIR}/base.frag -o $<TARGET_FILE_DIR:Kitten_Engine>/base.frag.spv
         COMMENT "compiling the shaders....."
     )
 
@@ -16,7 +16,7 @@ endif()
 
 add_custom_command(
     TARGET Kitten_Engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/engine/Resources $<TARGET_FILE_DIR:Kitten_Engine>/Resources
-    COMMENT "copying the Resources folder to theexecutable directory...."
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/engine/Resources $<TARGET_FILE_DIR:Kitten_Engine>/Resources
+    COMMENT "copying the Resources folder to the executable directory...."
 )
 

@@ -17,7 +17,7 @@ void cubeTextureDescriptor::createTextureDescriptor(VkDevice device,VkDescriptor
     VkWriteDescriptorSet cubeTextureDescriptors{};
     cubeTextureDescriptors.sType=VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     cubeTextureDescriptors.dstSet=set;
-    cubeTextureDescriptors.dstBinding=1;
+    cubeTextureDescriptors.dstBinding=0;
     cubeTextureDescriptors.dstArrayElement=0;
     cubeTextureDescriptors.descriptorType=VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     cubeTextureDescriptors.descriptorCount=static_cast<uint32_t>(image_infos.size());

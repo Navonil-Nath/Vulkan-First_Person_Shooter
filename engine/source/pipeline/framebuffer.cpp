@@ -1,7 +1,7 @@
 #include"framebuffer.hpp"
 
 
-FrameBuffer::FrameBuffer(VkDevice device,std::vector<VkImageView>swapColorImagesViews,VkImageView depthImageView,VkRenderPass renderpass,VkExtent2D extent){
+FrameBuffer::FrameBuffer(VkDevice device,std::vector<VkImageView>swapColorImagesViews,VkImageView depthImageView,VkRenderPass renderpass,VkExtent2D extent):m_device(device){
     CreateFrameBuffer(swapColorImagesViews,depthImageView,renderpass,extent);
 
 

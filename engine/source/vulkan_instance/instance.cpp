@@ -11,9 +11,9 @@ namespace{
     VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,VkDebugUtilsMessageTypeFlagsEXT messageType,const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,void* pUserData){
 
         if(messageSeverity== VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT){
-            throw std::runtime_error(pCallbackData->pMessage);
+            std::cerr<<"[validation layer error: ]"<<pCallbackData->pMessage<<std::endl;
         }
-        else{
+        else if(messageSeverity>=VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT){
             std::cout<<"[Validation layer:]"<<pCallbackData->pMessage<<std::endl;
         }
         return VK_FALSE;
@@ -22,7 +22,7 @@ namespace{
 
     //--second function---
     void DestroyDebugUtilsMessengerEXT(VkInstance instance,VkDebugUtilsMessengerEXT debugMessenger,const VkAllocationCallbacks* pAllocator){
-        auto func=(PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance,"vkDebugUtilsMessengerEXT");
+        auto func=(PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance,"vkDestroyDebugUtilsMessengerEXT");
         //chekingif the instance level func is loaded to prevent craches
         if(func!=nullptr){
             func(instance,debugMessenger,pAllocator);

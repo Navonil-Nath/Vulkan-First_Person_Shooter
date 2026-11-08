@@ -27,7 +27,7 @@
 #include"pushConstant.hpp"
 #include"Stagingbuffer.hpp"
 #include"UniformBuffer.hpp"
-#include"VertexBuffer.hpp"
+#include"Vertexbuffer.hpp"
 #include"pipelineLayout.hpp"
 #include"graphicsPipeline.hpp"
 #include"DescriptorPool.hpp"
@@ -41,7 +41,7 @@
 #include"uniformBufferDescriptor.hpp"
 #include"reflectioncubemapDescriptor.hpp"
 #include"TextureImages.hpp"
-#include"makeimages&views.hpp"
+#include"makeimages_and_views.hpp"
 #include"imageLoader.hpp"
 
 
@@ -118,7 +118,19 @@ class App{
         std::vector<VkDescriptorSetLayoutBinding>uniform_buffer_bindings;
         
 
-        //-----------------------------------------------------
+        //----------------uniformBuffer Descriptor----------------
+
+        //----------------Skybox Descriptors----------------------
+        const std::string skyBoxTexturePath="./Resources/skybox_cubemap/resting_place_4k.hdr";
+        std::unique_ptr<TextureSampler>  skybox_texture_sampler;
+        std::unique_ptr<Texture_Image> skybox_image_and_view;
+        std::unique_ptr<DescriptorSetLayout>  skybox_descriptorSet_layout;
+        std::unique_ptr<DescriptorSet> skybox_descriptor_set;
+        std::unique_ptr<SkyBoxDescriptor> skybox_descriptor_creator;
+        std::vector<VkDescriptorSetLayoutBinding> skybox_layout_bindings;
+
+
+        //----------------SkyBox descriptors----------------------------------------
 };
 
 #endif

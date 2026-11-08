@@ -1,5 +1,5 @@
 #ifndef SHADOW_MAP_DESCRIPTOR_CLASS
-#define SHADOW_MAP_DESCRTPTOR_CLASS
+#define SHADOW_MAP_DESCRIPTOR_CLASS
 #include<vulkan/vulkan.hpp>
 #include<iostream>
 class ShadowMapDescriptor{

@@ -3,7 +3,7 @@
 
 
 
-ShaderModule::ShaderModule(VkDevice device,std::string& filePath):m_device(device){
+ShaderModule::ShaderModule(VkDevice device,const std::string& filePath):m_device(device){
     auto code=ReadFile(filePath);
     CreateShaderModule(code);
 
@@ -17,7 +17,7 @@ ShaderModule::~ShaderModule(){
 
 }
 
-std::vector<char>ShaderModule::ReadFile(std::string& filepath){
+std::vector<char>ShaderModule::ReadFile(const std::string& filepath){
 
     std::ifstream file(filepath,std::ios::ate | std::ios::binary);
     //this above pointer sets the pointer to the spv file and sets it to the end of the file ie to the end bit

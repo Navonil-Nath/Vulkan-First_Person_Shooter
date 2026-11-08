@@ -2,7 +2,7 @@
 #define SWAPCHAIN_CLASS
 #include<GLFW/glfw3.h>
 #include<iostream>
-#include<vulkan.h>
+#include<vulkan/vulkan.h>
 #include<vector>
 class Swapchain{
     public:
