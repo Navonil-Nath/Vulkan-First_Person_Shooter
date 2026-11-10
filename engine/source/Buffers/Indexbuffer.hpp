@@ -8,7 +8,7 @@
 
 class IndexBuffer{
     public:
-    IndexBuffer(VkDevice device,VkPhysicalDevice physicalDevice,std::vector<uint32_t>& indices);
+    IndexBuffer(VkDevice device,VkPhysicalDevice physicalDevice,const std::vector<uint32_t>& indices);
     ~IndexBuffer();
 
     IndexBuffer(const IndexBuffer&)=delete;
@@ -16,6 +16,9 @@ class IndexBuffer{
     
     VkBuffer getIndexBuffer(){return m_IndexBuffer;}
     VkDeviceMemory getDevicemem(){return m_deviceMemory;}
+    uint32_t getIndex_Count(){return static_cast<uint32_t>(m_indexCount);}
+    size_t getIndexByteSize(){return m_Index_ByteSize;}
+    
 
 
     private:
@@ -24,7 +27,8 @@ class IndexBuffer{
     VkDeviceMemory m_deviceMemory{VK_NULL_HANDLE};
     VkDevice m_device{VK_NULL_HANDLE};
     VkDeviceSize m_indexCount{0};
-    void uploadData(std::vector<uint32_t>& indices);
+    VkDeviceSize m_Index_ByteSize{0};
+    void uploadData(const std::vector<uint32_t>& indices);
     uint32_t findMemory(uint32_t typefilter,VkMemoryPropertyFlags properties);
     void CreateIndexBuffer();
     VkPhysicalDevice m_physicalDevice{VK_NULL_HANDLE};

@@ -28,9 +28,9 @@ struct Vertex{
 
     static VkVertexInputBindingDescription getBindingDescription(){
         VkVertexInputBindingDescription inputBindingDescription{};
-        inputBindingDescription.binding=0; //this binding position acts a s slot where all the vertices flows through
+        inputBindingDescription.binding=0; //this is the slot where this particular vertex buffer is binded in the vram
         inputBindingDescription.stride=sizeof(Vertex);
-        inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX ;//just as i told above
+        inputBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX ;// this tells the gpu to move forward by one 'vertex' each time for this particular buffer
 
         return inputBindingDescription;
 
@@ -46,7 +46,7 @@ struct Vertex{
         description[0].offset=offsetof(Vertex,position);
 
         //location=1, description[1]-->normal attribute of the Vertex struct also normal is a face value ie caculated for each face and then stored per vertex of each face
-        description[1].binding=1;
+        description[1].binding=0;
         description[1].location=1;
         description[1].format=VK_FORMAT_R32G32B32_SFLOAT;
         description[1].offset=offsetof(Vertex,normal);
@@ -54,15 +54,15 @@ struct Vertex{
 
         //location=2
         //descripton[2]-->uv attribute of the vertex struct
-        description[2].binding=2;
-        description[2].location=3;
-        description[2].format=VK_FORMAT_R32_SFLOAT;
+        description[2].binding=0;
+        description[2].location=2;
+        description[2].format=VK_FORMAT_R32G32_SFLOAT;
         description[2].offset=offsetof(Vertex,uv); 
         //an uv of a vertex is the locationon the texture image to which that vertex must get connected to..
 
         //location=3
         //description[3] -->texture index of the texture form the array containing all the texture images(will be defining later)
-        description[3].binding=3;
+        description[3].binding=0;
         description[3].location=3;
         description[3].format=VK_FORMAT_R32_SFLOAT;
         description[3].offset=offsetof(Vertex,texture_index);

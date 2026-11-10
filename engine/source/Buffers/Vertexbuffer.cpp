@@ -1,9 +1,9 @@
 #include"Vertexbuffer.hpp"
 #include<stdexcept>
 
-VertexBuffer::VertexBuffer(VkPhysicalDevice physicalDevice,VkDevice device,std::vector<Vertex>& vertices):m_device(device),m_physicalDevice(physicalDevice)
+VertexBuffer::VertexBuffer(VkPhysicalDevice physicalDevice,VkDevice device,const std::vector<Vertex>& vertices):m_device(device),m_physicalDevice(physicalDevice)
 {
-    m_size=static_cast<uint64_t>(vertices.size());
+    m_size=static_cast<uint64_t>(vertices.size()*sizeof(Vertex));
     if(m_size==0){
         throw std::runtime_error("failled to fecth vertices");
     }    
@@ -19,11 +19,11 @@ VertexBuffer::~VertexBuffer(){
     }
 }
 
-void VertexBuffer::uploadBuffer(std::vector<Vertex>& vertices){
+void VertexBuffer::uploadBuffer(const std::vector<Vertex>& vertices){
 
     void*mappedMemory=nullptr;
     vkMapMemory(m_device,m_deviceMemory,0,m_size,0,&mappedMemory);
-    std::memcpy(mappedMemory,vertices.data(),static_cast<uint32_t>(m_size));
+    std::memcpy(mappedMemory,vertices.data(),static_cast<size_t>(m_size));
     vkUnmapMemory(m_device,m_deviceMemory);
 
 }
@@ -63,7 +63,7 @@ void VertexBuffer::CreateBuffer(){
 
     VkMemoryAllocateInfo allocateInfo{};
     allocateInfo.sType=VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    allocateInfo.allocationSize=m_size;
+    allocateInfo.allocationSize=memoryRequirements.size;
     allocateInfo.memoryTypeIndex=findMemory(memoryRequirements.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
     if(vkAllocateMemory(m_device,&allocateInfo,nullptr,&m_deviceMemory)!=VK_SUCCESS){

@@ -1,7 +1,8 @@
 #include"Indexbuffer.hpp"
 
-IndexBuffer::IndexBuffer(VkDevice device,VkPhysicalDevice physicalDevice,std::vector<uint32_t>& indices){
+IndexBuffer::IndexBuffer(VkDevice device,VkPhysicalDevice physicalDevice,const std::vector<uint32_t>& indices):m_device(device),m_physicalDevice(physicalDevice){
     m_indexCount=indices.size();
+    m_Index_ByteSize=static_cast<VkDeviceSize>(indices.size()*sizeof(uint32_t));
     if(m_indexCount==0){
         throw std::runtime_error("indices can't be empty");
     }
@@ -18,11 +19,11 @@ IndexBuffer::~IndexBuffer(){
     }
 }
 
-void IndexBuffer::uploadData(std::vector<uint32_t>& indices){
+void IndexBuffer::uploadData(const std::vector<uint32_t>& indices){
 
     void* mappedMemory=nullptr;
-    vkMapMemory(m_device,m_deviceMemory,0,m_indexCount,0,&mappedMemory);
-    std::memcpy(mappedMemory,indices.data(),static_cast<uint32_t>(m_indexCount));
+    vkMapMemory(m_device,m_deviceMemory,0,m_Index_ByteSize,0,&mappedMemory);
+    std::memcpy(mappedMemory,indices.data(),static_cast<size_t>(m_Index_ByteSize));
     vkUnmapMemory(m_device,m_deviceMemory);
 
 
@@ -48,7 +49,7 @@ uint32_t IndexBuffer::findMemory(uint32_t typefilter,VkMemoryPropertyFlags prope
 void IndexBuffer::CreateIndexBuffer(){
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType=VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    bufferInfo.size=m_indexCount;
+    bufferInfo.size=m_Index_ByteSize;
     bufferInfo.usage=VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
     bufferInfo.sharingMode=VK_SHARING_MODE_EXCLUSIVE;
     
@@ -61,7 +62,7 @@ void IndexBuffer::CreateIndexBuffer(){
 
     VkMemoryAllocateInfo allocateInfo{};
     allocateInfo.sType=VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    allocateInfo.allocationSize=m_indexCount;
+    allocateInfo.allocationSize=memoryRequirements.size;
     allocateInfo.memoryTypeIndex=findMemory(memoryRequirements.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
     if(vkAllocateMemory(m_device,&allocateInfo,nullptr,&m_deviceMemory)!=VK_SUCCESS){

@@ -22,7 +22,7 @@ whose vertices we will define here ourselves
 
 class VertexBuffer{
     public:
-    VertexBuffer(VkPhysicalDevice physicalDevice,VkDevice device,std::vector<Vertex>& vertices);
+    VertexBuffer(VkPhysicalDevice physicalDevice,VkDevice device,const std::vector<Vertex>& vertices);
     ~VertexBuffer();
 
     VertexBuffer(const VertexBuffer&)=delete;
@@ -36,7 +36,7 @@ class VertexBuffer{
     private:
     uint32_t findMemory(uint32_t typeFilter,VkMemoryPropertyFlags properties);
     void CreateBuffer();
-    void uploadBuffer(std::vector<Vertex>& vertices);
+    void uploadBuffer(const std::vector<Vertex>& vertices);
 
     VkBuffer m_vertexBuffer{VK_NULL_HANDLE};
     VkDevice m_device{VK_NULL_HANDLE};

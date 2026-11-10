@@ -43,7 +43,7 @@
 #include"TextureImages.hpp"
 #include"makeimages_and_views.hpp"
 #include"imageLoader.hpp"
-
+#include"cubeMeshData.hpp"
 
 
 class AppTestRunner;
@@ -107,6 +107,9 @@ class App{
         std::unique_ptr<DescriptorSetLayout>cube_texture_layout;
 
         std::unique_ptr<cubeTextureDescriptor>m_cube_texture_descriptor;
+
+        std::unique_ptr<VertexBuffer>m_cube_Vertex_Buffer;
+        std::unique_ptr<IndexBuffer>m_cube_Index_Buffer;
 
         //----------------cube-------------------------------
               

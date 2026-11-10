@@ -24,7 +24,9 @@ App::App(){
     
     //--------------cube-------------------------------
    
-
+    m_cube_Vertex_Buffer=std::make_unique<VertexBuffer>(m_physical_Device->get(),m_logical_device->get(),CubeMeshData::getCubeVertices());
+    m_cube_Index_Buffer=std::make_unique<IndexBuffer>(m_logical_device->get(),m_physical_Device->get(),CubeMeshData::getIndices());
+    
     //forming the imageviews and putting data in memeory
     for(const std::string& path: cubeTexturesPath){
         LoadedImage rawImage=ImageLoader::loadTexture(path);
