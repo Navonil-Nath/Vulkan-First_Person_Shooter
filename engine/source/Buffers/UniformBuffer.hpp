@@ -20,7 +20,7 @@ struct UniformBufferObject{
     //for the main camera
     alignas(16) glm::mat4 view{1.0f};
     alignas(16) glm::mat4 projection{1.0f};
-    alignas(16) glm::mat4 MainCameraSpace{1.0f};
+    alignas(16) glm::mat4 MainCameraSpace{1.0f}; //this defines the combined view+projection matrice to save gpu performance beacuse we don't have to seperatelly do view product then product with projection matrice for each of the vertices of the cubemesh or any other model
     
 
     //for the pointlight --we will set the position and direction of the point light later
@@ -71,6 +71,7 @@ class UniformBuffer{
 
         VkBuffer get(){return m_buffer;}
         VkDeviceMemory getMemory(){return m_memory;}
+        VkDeviceSize getSizeOfBuffer(){return m_size;}
 
     private:
         void CreateBuffer();

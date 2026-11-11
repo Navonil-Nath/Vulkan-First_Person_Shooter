@@ -40,6 +40,7 @@ set(SOURCES
 "./texture/imageLoader.cpp"
 "./texture/TextureImages.cpp"
 "./texture/makeimages_and_views.cpp"
+"./Camera/camera.cpp"
 
 
 )
@@ -70,6 +71,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "./texture"
     "./DescriptorSet"
     "./DescriptorSet/Descriptor"
+    "./Camera"
     
     
 )

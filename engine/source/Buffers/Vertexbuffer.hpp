@@ -3,12 +3,11 @@
 
 
 /*
-here we will implement that systeam which will take in the vector of the 3d models vertices and upload them to the stagging buffer
+here we will implement that systeam which will take in the vector of the 3d models vertices and upload them to the GPU
 
-now a quick note:the stagingbuffer class i created earlier was for the models loaded using gltf or extrenal 3dmodels or cubemaps and textures
-that will be required to be transfereed to the VRAM from the stagging buffer
 
-the vertexBuffer is for the transferring our cubes or speheres data to the stagging buffer
+
+the vertexBuffer is for the transferring our cubes or speheres data to the GPU
 whose vertices we will define here ourselves
 */
 
@@ -31,6 +30,7 @@ class VertexBuffer{
 
     VkBuffer getVertexBuffer(){return m_vertexBuffer;}
     VkDeviceMemory getVertexmemory(){return m_deviceMemory;}
+    VkDeviceSize getSizeOfBuffer(){return m_size;}
 
 
     private:

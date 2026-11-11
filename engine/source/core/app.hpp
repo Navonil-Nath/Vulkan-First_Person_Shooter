@@ -44,6 +44,9 @@
 #include"makeimages_and_views.hpp"
 #include"imageLoader.hpp"
 #include"cubeMeshData.hpp"
+#include"camera.hpp"
+
+
 
 
 class AppTestRunner;
@@ -76,6 +79,8 @@ class App{
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
         std::unique_ptr<CommandBuffer>m_command_handle;
         std::unique_ptr<SyncObjects>m_sync_objects;
+        std::unique_ptr<Camera>m_camera;
+        void UpdateUniformBuffer(float deltaTime);
         //------------------------
         //std::unique_ptr<Texture_Image>image //to be declared once evry texture image
         //------------------------
@@ -108,7 +113,7 @@ class App{
 
         std::unique_ptr<cubeTextureDescriptor>m_cube_texture_descriptor;
 
-        std::unique_ptr<VertexBuffer>m_cube_Vertex_Buffer;
+        std::unique_ptr<VertexBuffer>m_cube_Vertex_Buffer; 
         std::unique_ptr<IndexBuffer>m_cube_Index_Buffer;
 
         //----------------cube-------------------------------

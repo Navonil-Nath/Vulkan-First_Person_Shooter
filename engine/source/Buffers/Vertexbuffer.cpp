@@ -54,7 +54,7 @@ void VertexBuffer::CreateBuffer(){
     
     
     if(vkCreateBuffer(m_device,&bufferInfo,nullptr,& m_vertexBuffer)!=VK_SUCCESS){
-        throw std::runtime_error("thevertex buffer for the custom objects coudn't be created");
+        throw std::runtime_error("the vertex buffer for the custom objects coudn't be created");
     }
 
     VkMemoryRequirements memoryRequirements{};

@@ -4,6 +4,19 @@
 #include<GLFW/glfw3.h>
 #include<string>
 
+void App::UpdateUniformBuffer(float deltaTime){
+    m_camera->ProcessInput(m_glfw_window.get(),deltaTime);
+    VkExtent2D extent=m_swapchain->getExtent();
+    float aspectRatio=static_cast<float>(extent.width)/static_cast<float>(extent.height);
+    UniformBufferObject ubo{};
+    ubo.view=m_camera->getViewMatrice();
+    ubo.projection=m_camera->getProjectionMatrice(aspectRatio);
+    ubo.MainCameraSpace=ubo.projection*ubo.view; //here the order is ext importent as we first perform view then projection for each of the vertices
+
+    m_uniform_buffer->Upload(ubo);
+
+}
+
 App::App(){
     m_vulkan_instance=std::make_unique<VulkanInstance>("Kitten_Engine");
     m_window_surface=std::make_unique<WindowSurface>(m_glfw_window.get(),m_vulkan_instance->get());
@@ -21,7 +34,7 @@ App::App(){
     m_texture_sampler=std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::Repeat);
     m_uniform_buffer=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
     m_image_and_view_maker=std::make_unique<CreateImage>(); //to be used each time tansition operations to be done on the memory
-    
+    m_camera=std::make_unique<Camera>(glm::vec3{0.0f,0.0f,0.0f});
     //--------------cube-------------------------------
    
     m_cube_Vertex_Buffer=std::make_unique<VertexBuffer>(m_physical_Device->get(),m_logical_device->get(),CubeMeshData::getCubeVertices());
@@ -130,7 +143,14 @@ App::~App(){
 
 void App::Run(){
     //std::cout<<"engine initiated"<<std::endl;
+    float lastFrameTime=static_cast<float>(glfwGetTime());    
     while(!m_glfw_window.ShouldCloseWindow()){
         m_glfw_window.pollEvents();
-    }
+
+        float currentFrameTime=static_cast<float>(glfwGetTime());
+        float delta_Time=currentFrameTime-lastFrameTime;
+        lastFrameTime=currentFrameTime;
+
+        UpdateUniformBuffer(delta_Time);  //the unoform buffer in the gpu is now updated with the updated projection and view matric for this frame and now we need to multiply each of the model's vertices with these 
+    } 
 }
