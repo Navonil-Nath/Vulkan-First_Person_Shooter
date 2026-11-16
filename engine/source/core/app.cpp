@@ -34,7 +34,7 @@ App::App(){
     m_texture_sampler=std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::Repeat);
     m_uniform_buffer=std::make_unique<UniformBuffer>(m_logical_device->get(),m_physical_Device->get());
     m_image_and_view_maker=std::make_unique<CreateImage>(); //to be used each time tansition operations to be done on the memory
-    m_camera=std::make_unique<Camera>(glm::vec3{0.0f,0.0f,0.0f});
+    m_camera=std::make_unique<Camera>(glm::vec3{0.0f,0.0f,0.3f});
     //--------------cube-------------------------------
    
     m_cube_Vertex_Buffer=std::make_unique<VertexBuffer>(m_physical_Device->get(),m_logical_device->get(),CubeMeshData::getCubeVertices());

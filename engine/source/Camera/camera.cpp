@@ -63,9 +63,10 @@ void Camera::ProcessInput(GLFWwindow* window,float deltaTime){//takes the input 
             last_mouse_posY=currentMouseY;
             isFirstFrame=false;
         }
-
-        float offsetX=static_cast<float>(currentMouseX-last_mouse_posX);
-        float offsetY=static_cast<float>(currentMouseY-last_mouse_posY);
+        //we need to multiply the offsetX and offsetY by the mouseSensitivity beacuse the glfw measure displacements in pixels and ours camera class records distances and displacements in degrees
+        //say if the offsetY displacement is 10 pixels then 0.1*10 ensures that only 10 degrees is moved along the y axis etc.. a greater value of mouseSensitivity means a greater displacement
+        float offsetX=static_cast<float>(currentMouseX-last_mouse_posX)*mouseSensitivity;
+        float offsetY=static_cast<float>(last_mouse_posY-currentMouseY)*mouseSensitivity;
 
         last_mouse_posX=currentMouseX;  //for the next frame
         last_mouse_posY=currentMouseY;  // ..
