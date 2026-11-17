@@ -91,6 +91,8 @@ if(GLSLC)
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${GLSLC} ${CMAKE_SOURCE_DIR}/engine/shaders/base.vert -o $<TARGET_FILE_DIR:${PROJECT_NAME}>/base.vert.spv
         COMMAND ${GLSLC} ${CMAKE_SOURCE_DIR}/engine/shaders/base.frag -o $<TARGET_FILE_DIR:${PROJECT_NAME}>/base.frag.spv
+        COMMAND ${GLSLC} ${CMAKE_SOURCE_DIR}/engine/shaders/skybox.vert -o $<TARGET_FILE_DIR:${PROJECT_NAME}>/skybox.vert.spv
+        COMMAND ${GLSLC} ${CMAKE_SOURCE_DIR}/engine/shaders/skybox.frag -o $<TARGET_FILE_DIR:${PROJECT_NAME}>/skybox.frag.spv
         COMMENT "compiling the shaders....."
     )
 

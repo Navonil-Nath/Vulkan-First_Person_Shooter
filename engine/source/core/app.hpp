@@ -45,6 +45,9 @@
 #include"imageLoader.hpp"
 #include"cubeMeshData.hpp"
 #include"camera.hpp"
+#include"graphicsPipeline.hpp"
+
+
 
 
 
@@ -86,12 +89,17 @@ class App{
         //------------------------
         //-----------global resources------------------------------------------------
         std::unique_ptr<PipelineLayout>m_pipeline_layout;
+        std::unique_ptr<GraphicsPipeline>cube_pipeline;
+        std::unique_ptr<GraphicsPipeline>skybox_pipeline;
         std::vector<VkDescriptorSetLayout>activeLayouts; 
         PushConstantObject pushConstant;
         std::unique_ptr<DescriptorPool>m_Descriptor_Pool;
         std::unique_ptr<TextureSampler>m_texture_sampler; 
         std::unique_ptr<UniformBuffer>m_uniform_buffer;
         std::unique_ptr<CreateImage>m_image_and_view_maker;
+        uint32_t current_frame=0;
+        void RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex); //this is where we will record per frame commands
+        void DrawFrame();
 
         //-----------------------------------------------
 
@@ -129,14 +137,23 @@ class App{
         //----------------uniformBuffer Descriptor----------------
 
         //----------------Skybox Descriptors----------------------
-        const std::string skyBoxTexturePath="./Resources/skybox_cubemap/resting_place_4k.hdr";
+        const std::vector<std::string>skyBoxTexturePath={
+            //made to match the order in the cubemash data indices of the faces
+            "./Resources/easy_cubemap/nx.png",
+            "./resources/easy_cubemap/ny.png",
+            "./Resources/easy_cubemap/nx.png",
+            "./Resources/easy_cubemap/px.png"
+            "./Resources/easy_cubemap/py.png",
+            "./Resources/easy_cubemap/ny.png"
+        };
         std::unique_ptr<TextureSampler>  skybox_texture_sampler;
-        std::unique_ptr<Texture_Image> skybox_image_and_view;
+        std::vector<std::unique_ptr<Texture_Image>> skybox_texture_images;
+        std::vector<VkImageView>skybox_texture_image_views;
         std::unique_ptr<DescriptorSetLayout>  skybox_descriptorSet_layout;
         std::unique_ptr<DescriptorSet> skybox_descriptor_set;
         std::unique_ptr<SkyBoxDescriptor> skybox_descriptor_creator;
         std::vector<VkDescriptorSetLayoutBinding> skybox_layout_bindings;
-
+        
 
         //----------------SkyBox descriptors----------------------------------------
 };

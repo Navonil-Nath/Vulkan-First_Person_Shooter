@@ -27,8 +27,8 @@ void CommandBuffer::CreateCommandpool(uint32_t queueIndex){
 }
 
 //now these buffers are to be created seperatelly when needed
-std::vector<VkCommandBuffer> CommandBuffer::allocateCommandBuffers(uint32_t totalFrames){
-    std::vector<VkCommandBuffer>commandBuffers(totalFrames);
+void CommandBuffer::allocateCommandBuffers(uint32_t totalFrames){
+    command_buffers.resize(totalFrames);
 
     VkCommandBufferAllocateInfo allocateInfo{};
 
@@ -38,10 +38,10 @@ std::vector<VkCommandBuffer> CommandBuffer::allocateCommandBuffers(uint32_t tota
     allocateInfo.commandBufferCount=totalFrames;
     
 
-    if(vkAllocateCommandBuffers(m_device,&allocateInfo,commandBuffers.data())!=VK_SUCCESS){
+    if(vkAllocateCommandBuffers(m_device,&allocateInfo,command_buffers.data())!=VK_SUCCESS){
         throw std::runtime_error("the command buffers for the per frame  coudn't be formed");
     };
-    return commandBuffers;
+    
 }
 
 //now we will make function for creating custom command buffers for special purposes

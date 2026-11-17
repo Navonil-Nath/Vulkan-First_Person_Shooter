@@ -65,21 +65,34 @@ void RenderPass::CreateRenderPass(VkFormat colorFormat,VkFormat depthFormat){
     subPass.pDepthStencilAttachment=&depthAttachmentRef;
     
     std::array<VkAttachmentDescription,2>attachments={colorAttachment,depthAttachment};
-    
+//define the subpass depency which synchronises two or subpasses 
+    VkSubpassDependency subpass_dependency{};
+    subpass_dependency.srcSubpass=VK_SUBPASS_EXTERNAL;
+    subpass_dependency.dstSubpass=0;
+    subpass_dependency.srcStageMask=VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT| VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
+    subpass_dependency.srcAccessMask=VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
+    subpass_dependency.dstAccessMask=VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
-    //create the renderpass
+
+
+    //crrating the renderpass
 
     VkRenderPassCreateInfo renderPassInfo{};
     renderPassInfo.sType=VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
     renderPassInfo.attachmentCount=static_cast<uint32_t>(attachments.size());
+  
     renderPassInfo.pAttachments=attachments.data();
-    renderPassInfo.subpassCount=1; //defines how many graphics pripleines we want to intiate per renderpass here only 1 as each subpass starts only 1 graphics pipeline operation
+    renderPassInfo.subpassCount=1;
     renderPassInfo.pSubpasses=&subPass;
+    renderPassInfo.dependencyCount=1;
+    renderPassInfo.pDependencies=&subpass_dependency;
 
 
     if(vkCreateRenderPass(m_device,&renderPassInfo,nullptr,&m_renderPass)!=VK_SUCCESS){
-        throw std::runtime_error("the renderpass coudn't be created");
-    }   
+        throw std::runtime_error("the subpass coudn't be created");
+    }
+
+
 
 }
 

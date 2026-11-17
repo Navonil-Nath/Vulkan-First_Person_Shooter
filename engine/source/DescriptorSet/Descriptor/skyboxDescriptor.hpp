@@ -2,6 +2,7 @@
 #define SKYBOX_DESCRIPTOR_CLASS
 #include<vulkan/vulkan.hpp>
 #include<stdexcept>
+#include<vector>
 
 
 class SkyBoxDescriptor{
@@ -11,6 +12,6 @@ class SkyBoxDescriptor{
     SkyBoxDescriptor(const SkyBoxDescriptor&)=delete;
     SkyBoxDescriptor& operator=(const SkyBoxDescriptor&)=delete;
 
-    void CreateSkyBoxDescriptor(VkDevice device,VkSampler sampler,VkImageView view,VkDescriptorSet& set);
+    void CreateSkyBoxDescriptor(VkDevice device,VkSampler sampler,std::vector<VkImageView>Skyboxtexture_Views,VkDescriptorSet& set);
 };
 #endif

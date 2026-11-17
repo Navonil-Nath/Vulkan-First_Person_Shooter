@@ -2,8 +2,8 @@
 #include"shaderModule.hpp"
 #include"vertex.hpp"
 
-GraphicsPipeline::GraphicsPipeline(VkDevice device,VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent):m_device(device){
-    CreateGraphicsPipeline(renderpass,pipelineLayout,swapchainExtent);
+GraphicsPipeline::GraphicsPipeline(VkDevice device,VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent,const std::string& vertex_shaderPath,const std::string& fragment_shaderPath,bool isSkybox):m_device(device){
+    CreateGraphicsPipeline(renderpass,pipelineLayout,swapchainExtent,vertex_shaderPath,fragment_shaderPath,isSkybox);
 }
 
 GraphicsPipeline::~GraphicsPipeline(){
@@ -13,9 +13,9 @@ GraphicsPipeline::~GraphicsPipeline(){
 
 }
 
-void GraphicsPipeline::CreateGraphicsPipeline(VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent){
-    ShaderModule vertexModule(m_device,"base.vert.spv");  //since the spv files are in the .exe directory
-    ShaderModule fragmentModule(m_device,"base.frag.spv");
+void GraphicsPipeline::CreateGraphicsPipeline(VkRenderPass renderpass,VkPipelineLayout pipelineLayout,VkExtent2D swapchainExtent,const std::string& vertex_shaderPath,const std::string& fragment_shaderPath,bool isSkybox){
+    ShaderModule vertexModule(m_device,vertex_shaderPath);  //since the spv files are in the .exe directory
+    ShaderModule fragmentModule(m_device,fragment_shaderPath);
 
     VkPipelineShaderStageCreateInfo vertexShaderstageInfo{};
     vertexShaderstageInfo.stage=VK_SHADER_STAGE_VERTEX_BIT;
@@ -67,8 +67,11 @@ void GraphicsPipeline::CreateGraphicsPipeline(VkRenderPass renderpass,VkPipeline
     reterizationInfo.sType=VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     reterizationInfo.polygonMode=VK_POLYGON_MODE_FILL;
     reterizationInfo.lineWidth=1.0f;
-    reterizationInfo.cullMode=VK_CULL_MODE_BACK_BIT;
+    //when the skybox loads ,it encaps the camera, so we need to disable the back cull for it so that the objects rendered at back of it is rendered,although we will lateer put the depth for the skybox to be mak 1.0
+
+    reterizationInfo.cullMode=isSkybox?VK_CULL_MODE_NONE : VK_CULL_MODE_BACK_BIT;
     reterizationInfo.frontFace=VK_FRONT_FACE_COUNTER_CLOCKWISE;
+
 
     //we will stick to the default 1bit sampling per fragment fornow
 
@@ -92,8 +95,9 @@ void GraphicsPipeline::CreateGraphicsPipeline(VkRenderPass renderpass,VkPipeline
     VkPipelineDepthStencilStateCreateInfo depthStencil{};
     depthStencil.sType=VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     depthStencil.depthTestEnable=VK_TRUE;
-    depthStencil.depthWriteEnable=VK_TRUE;
-    depthStencil.depthCompareOp=VK_COMPARE_OP_LESS;
+    //check if we are loading skybox if yes. then set it's depth test to be false ie all the objects behind it will be rendered to the camera
+    depthStencil.depthWriteEnable=isSkybox?VK_FALSE:VK_TRUE;
+    depthStencil.depthCompareOp=isSkybox?VK_COMPARE_OP_LESS_OR_EQUAL:VK_COMPARE_OP_LESS;
     depthStencil.depthBoundsTestEnable=VK_FALSE;
     depthStencil.stencilTestEnable=VK_FALSE;
 

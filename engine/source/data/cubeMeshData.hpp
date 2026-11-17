@@ -13,34 +13,34 @@ class CubeMeshData{
                 
                 {{-0.5f,-0.5f,0.5f},{0.0f,0.0f,1.0f},{0.0f,1.0f},0.0f}, //vertex 0
                 {{0.5f,-0.5f,0.5f},{0.0f,0.0f,1.0f},{1.0f,1.0f},0.0f}, //vertex 1
-                {{0.5f,0.5f,0.5f},{0.0f,0.0f,1.0f},{1.0f,0.0f},0.0f},//vertex 2
+                {{0.5f,0.5f,0.5f},{0.0f,0.0f,1.0f},{1.0f,0.0f},0.0f},//vertex 2      //face 0   -->shall contain the texture pZ 
                 {{-0.5f,0.5f,0.5f},{0.0f,0.0f,1.0f},{0.0f,0.0f},0.0f}, //vertex 3
 
 
                 {{0.5f,-0.5f,-0.5f},{0.0f,0.0f,-1.0f},{0.0f,1.0f},1.0f}, //vertex 4
-                {{-0.5f,-0.5f,-0.5f},{0.0f,0.0f,-1.0f},{1.0f,1.0f},1.0f}, //vertex 5
+                {{-0.5f,-0.5f,-0.5f},{0.0f,0.0f,-1.0f},{1.0f,1.0f},1.0f}, //vertex 5   //face 1 -->shall contain the texture nZ
                 {{-0.5f,0.5f,-0.5f},{0.0f,0.0f,-1.0f},{1.0f,0.0f},1.0f}, //vertex 6
                 {{0.5f,0.5f,-0.5f},{0.0f,0.0f,-1.0f},{0.0f,0.0f},1.0f}, //vertex 7
 
 
                 {{-0.5f,-0.5f,-0.5f},{-1.0f,0.0f,0.0f},{0.0f,1.0f},2.0f}, //vertex 8
                 {{-0.5f,-0.5f,0.5f},{-1.0f,0.0f,0.0f},{1.0f,1.0f},2.0f}, //vertex 9
-                {{-0.5f,0.5f,0.5f},{-1.0f,0.0f,0.0f},{1.0f,0.0f},2.0f}, //vertex 10
+                {{-0.5f,0.5f,0.5f},{-1.0f,0.0f,0.0f},{1.0f,0.0f},2.0f}, //vertex 10     //face 2 -->shall contain the texture nX
                 {{-0.5f,0.5f,-0.5f},{-1.0f,0.0f,0.0f},{0.0f,0.0f},2.0f}, //vertex 11
 
                 {{0.5f,-0.5f,0.5f},{1.0f,0.0f,0.0f},{0.0f,1.0f},3.0f}, //vertex 12
-                {{0.5f,-0.5f,-0.5f},{1.0f,0.0f,0.0f},{1.0f,1.0f},3.0f}, //vertex 13
+                {{0.5f,-0.5f,-0.5f},{1.0f,0.0f,0.0f},{1.0f,1.0f},3.0f}, //vertex 13  //face 3 -->shall contain the texture pX
                 {{0.5f,0.5f,-0.5f},{1.0f,0.0f,0.0f},{1.0f,0.0f},3.0f}, //vertex 14
                 {{0.5f,0.5f,0.5f},{1.0f,0.0f,0.0f},{0.0f,0.0f},3.0f}, //vertex 15
 
                 {{-0.5f,0.5f,0.5f},{0.0f,1.0f,0.0f},{0.0f,1.0f},4.0f}, //vertex 16
-                {{0.5f,0.5f,0.5f},{0.0f,1.0f,0.0f},{1.0f,1.0f},4.0f}, //vertex 17
-                {{0.5f,0.5f,-0.5f},{0.0f,1.0f,0.0f},{1.0f,0.0f},4.0f}, //vertex 18
+                {{0.5f,0.5f,0.5f},{0.0f,1.0f,0.0f},{1.0f,1.0f},4.0f}, //vertex 17    //face 4  -->shall contain the texture pY
+                {{0.5f,0.5f,-0.5f},{0.0f,1.0f,0.0f},{1.0f,0.0f},4.0f}, //vertex 18   
                 {{-0.5f,0.5f,-0.5f},{0.0f,1.0f,0.0f},{0.0f,0.0f},4.0f}, //vertex 19
 
                 {{-0.5f,-0.5f,-0.5f},{0.0f,-1.0f,0.0f},{0.0f,1.0f},5.0f}, //vertex 20
-                {{0.5f,-0.5f,-0.5f},{0.0f,-1.0f,0.0f},{1.0f,1.0f},5.0f}, //vertex 21
-                {{0.5f,-0.5f,0.5f},{0.0f,-1.0f,0.0f},{1.0f,0.0f},5.0f}, //vertex 22
+                {{0.5f,-0.5f,-0.5f},{0.0f,-1.0f,0.0f},{1.0f,1.0f},5.0f}, //vertex 21     //face 5  -->shall contain the texture nY
+                {{0.5f,-0.5f,0.5f},{0.0f,-1.0f,0.0f},{1.0f,0.0f},5.0f}, //vertex 22   
                 {{-0.5f,-0.5f,0.5f},{0.0f,-1.0f,0.0f},{0.0f,0.0f},5.0f} //vertex 23
 
             };
@@ -69,6 +69,10 @@ class CubeMeshData{
 
 };
 #endif
+
+//this same cubeMesh will be used to hold the skybox
+//in case of the skybox it will be rendered with the camera as the center
+//and the cube mesh will be loaded with the 0,0,0, in the 3d scenes as the center
 
 /*
                     Theory
