@@ -142,7 +142,7 @@ class App{
             "./Resources/easy_cubemap/nx.png",
             "./resources/easy_cubemap/ny.png",
             "./Resources/easy_cubemap/nx.png",
-            "./Resources/easy_cubemap/px.png"
+            "./Resources/easy_cubemap/px.png",
             "./Resources/easy_cubemap/py.png",
             "./Resources/easy_cubemap/ny.png"
         };

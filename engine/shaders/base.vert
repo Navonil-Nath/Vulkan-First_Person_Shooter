@@ -7,7 +7,7 @@ layout(location=3)in float inTexIndex;
 
 layout(location=0)out vec3 fragNormal;
 layout(location=1)out vec2 fragUV;
-layout(location=2)out int texIndex;
+layout(location=2)flat out int texIndex;
 
 
 layout(set=1,binding=0)uniform UniformBufferObject{
