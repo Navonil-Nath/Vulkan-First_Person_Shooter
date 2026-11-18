@@ -41,7 +41,7 @@ struct UniformBufferObject{
     //so the total mo of directions it will be looking at is 'max_ref_surfaces'
     alignas(16) glm::mat4 refl_cubeMapViews[max_ref_surfaces];
     alignas(16) glm::mat4 refl_cubeMapProjection[max_ref_surfaces];
-    alignas(16) glm::mat4 refl_cubemapSpace[max_ref_surfaces];
+    alignas(16) glm::mat4 refl_cubemapSpace[max_ref_surfaces]; //----------->24
 
 
     //for the skybox cubemap

@@ -44,10 +44,10 @@ void App::RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex){
     vkCmdBeginRenderPass(buffer,&renderInfo,VK_SUBPASS_CONTENTS_INLINE);
 
     //binding these below descriptor sets
-    std::array<VkDescriptorSet,3>descriptorSets={
+    std::array<VkDescriptorSet,3>descriptorSets={ //--------------------->set orders
         cube_descriptor_set->get(),uniform_buffer_set->get(),skybox_descriptor_set->get()
     };
-    //binding the escriptor sets
+    //binding the escriptor sets  ----------->set orders
     vkCmdBindDescriptorSets(buffer,VK_PIPELINE_BIND_POINT_GRAPHICS,m_pipeline_layout->get(),0,static_cast<uint32_t>(descriptorSets.size()),descriptorSets.data(),0,nullptr);
 
     //bind the push constants to the gpu registers
@@ -55,7 +55,8 @@ void App::RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex){
     vkCmdPushConstants(buffer,m_pipeline_layout->get(),VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,0,sizeof(PushConstantObject),&pushConstant);
     //binding the index and vertex buffers
     VkBuffer vertexBuffer[]={m_cube_Vertex_Buffer->getVertexBuffer()};
-    vkCmdBindVertexBuffers(buffer,0,1,vertexBuffer,{0});
+    VkDeviceSize offset[]={0};
+    vkCmdBindVertexBuffers(buffer,0,1,vertexBuffer,offset); //vulkan expects here a pointer to an array
     vkCmdBindIndexBuffer(buffer,m_cube_Index_Buffer->getIndexBuffer(),0,VK_INDEX_TYPE_UINT32);
 
 
@@ -101,7 +102,8 @@ void App::DrawFrame(){
     submitInfo.pWaitSemaphores=waitSemaphores;
     submitInfo.pWaitDstStageMask=waitStages;
     submitInfo.commandBufferCount=1;
-    submitInfo.pCommandBuffers=&m_command_handle->getBuffer()[current_frame];
+    VkCommandBuffer cmdBuffer=m_command_handle->getBuffer()[current_frame]; //this is to prevent assing temporary variable to the pCommandBuffers
+    submitInfo.pCommandBuffers=&cmdBuffer;
     submitInfo.signalSemaphoreCount=1;
     submitInfo.pSignalSemaphores=signalSemaphore;
 
@@ -222,7 +224,7 @@ App::App(){
         std::unique_ptr<Texture_Image> texture=std::make_unique<Texture_Image>(m_logical_device->get(),m_physical_Device->get(),static_cast<uint32_t>(rawImage.width),static_cast<uint32_t>(rawImage.height),VK_FORMAT_R8G8B8A8_SRGB);
         m_image_and_view_maker->UploadFromBuffer(texture->get_image(),*m_command_handle,m_logical_device->getQueue(),m_staggingBuffer.getBuffer(),*texture);
         skybox_texture_image_views.push_back(texture->get_image_view());
-        skybox_texture_images.push_back(texture);
+        skybox_texture_images.push_back(std::move(texture));
     }
 
 
