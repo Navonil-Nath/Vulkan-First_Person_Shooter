@@ -139,8 +139,8 @@ class App{
         //----------------Skybox Descriptors----------------------
         const std::vector<std::string>skyBoxTexturePath={
             //made to match the order in the cubemash data indices of the faces
-            "./Resources/easy_cubemap/nx.png",
-            "./resources/easy_cubemap/ny.png",
+            "./Resources/easy_cubemap/pz.png",
+            "./resources/easy_cubemap/nz.png",
             "./Resources/easy_cubemap/nx.png",
             "./Resources/easy_cubemap/px.png",
             "./Resources/easy_cubemap/py.png",

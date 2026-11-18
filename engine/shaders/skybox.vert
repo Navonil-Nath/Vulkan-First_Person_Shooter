@@ -51,7 +51,13 @@ void main(){
     //so we will follow a linear order
     texIndex=int(round(inTexIndex));
     fragUV=inUV;
-    
+    //note that the texIndex is as same as the face Index
+    //if(texIndex<4){
+    //    fragUV=vec2(1.0-inUV.x,inUV.y);
+    //}                                            //this adjustment fixes the orientation of the skybox
+    //else{
+    //    fragUV=inUV;
+    //}
     //no need for normal as the skybox won't be rotated or scalled
     
 
