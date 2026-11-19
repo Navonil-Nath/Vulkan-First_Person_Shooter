@@ -3,6 +3,7 @@
 #include<memory>
 #include<GLFW/glfw3.h>
 #include<string>
+#include<array>
 
 void App::UpdateUniformBuffer(float deltaTime){
     m_camera->ProcessInput(m_glfw_window.get(),deltaTime);
@@ -17,6 +18,59 @@ void App::UpdateUniformBuffer(float deltaTime){
 
 }
 
+void App::RecordCubeSecondaryBuffer(VkCommandBuffer cubeBuffer,const VkCommandBufferInheritanceInfo& inheritanceInfo){
+    //commands to record in the command buffer->'cubeBuffer' to the worker thread 1
+    // the below commands are for the rendering the 3d cube with textures
+
+    VkCommandBufferBeginInfo beginInfo{};
+    beginInfo.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    beginInfo.flags=VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT; //this tells the gpu that this command buffer executes under the renderpass
+    beginInfo.pInheritanceInfo=&inheritanceInfo; //VkCommandBufferInheritanceInfo tells the gpu that this buffer must execute under which renderpass
+
+    vkBeginCommandBuffer(cubeBuffer,&beginInfo);
+
+    std::array<VkDescriptorSet,3>descriptorSets={cube_descriptor_set->get(),uniform_buffer_set->get(),skybox_descriptor_set->get()};
+    //bind the descriptor set
+    vkCmdBindDescriptorSets(cubeBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,m_pipeline_layout->get(),0,static_cast<uint32_t>(descriptorSets.size()),descriptorSets.data(),0,nullptr);
+    PushConstantObject cubeScene{};
+    cubeScene.model=glm::mat4(1.0f); //load the model with the 0,0,0 as the center
+    vkCmdPushConstants(cubeBuffer,m_pipeline_layout->get(),VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,0,sizeof(PushConstantObject),&cubeScene);
+    //binding the index and vertex buffers
+    VkBuffer vertexBuffers[]={m_cube_Vertex_Buffer->getVertexBuffer()};
+    VkDeviceSize vertex_offsets[]={0};
+    vkCmdBindVertexBuffers(cubeBuffer,0,1,vertexBuffers,vertex_offsets);
+    vkCmdBindIndexBuffer(cubeBuffer,m_cube_Index_Buffer->getIndexBuffer(),0,VK_INDEX_TYPE_UINT32);
+    vkCmdBindPipeline(cubeBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,cube_pipeline->get());
+    vkCmdDrawIndexed(cubeBuffer,m_cube_Index_Buffer->getIndex_Count(),1,0,0,0);
+    
+    vkEndCommandBuffer(cubeBuffer);
+
+}
+void App::RecordSkyboxSecondaryBuffer(VkCommandBuffer skyboxBuffer,const VkCommandBufferInheritanceInfo& inheritanceInfo){
+    //commands to record in the command buffer->"skyboxBuffer" to the worker thread 2
+    //the below commands are for the rendering the 3d skybox with the teextures
+    VkCommandBufferBeginInfo beginInfo{};
+    beginInfo.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+
+    beginInfo.flags=VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT;
+    beginInfo.pInheritanceInfo=&inheritanceInfo;
+    vkBeginCommandBuffer(skyboxBuffer,&beginInfo);
+//note i didn't used push constant->mode->{1.0f} here beacuse the skybox is to be rendered with the camera as the center
+    std::array<VkDescriptorSet,3>descriptorSets={cube_descriptor_set->get(),uniform_buffer_set->get(),skybox_descriptor_set->get()};
+    vkCmdBindDescriptorSets(skyboxBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,m_pipeline_layout->get(),0,static_cast<uint32_t>(descriptorSets.size()),descriptorSets.data(),0,nullptr);
+    //since the skybox and the cube mesh uses the same vertex and index buffer
+    VkBuffer vertexBuffers[]={m_cube_Vertex_Buffer->getVertexBuffer()};
+    VkDeviceSize vertex_offsets[]={0};
+    vkCmdBindVertexBuffers(skyboxBuffer,0,1,vertexBuffers,vertex_offsets);
+    vkCmdBindIndexBuffer(skyboxBuffer,m_cube_Index_Buffer->getIndexBuffer(),0,VK_INDEX_TYPE_UINT32);
+    vkCmdBindPipeline(skyboxBuffer,VK_PIPELINE_BIND_POINT_GRAPHICS,cube_pipeline->get());
+    vkCmdDrawIndexed(skyboxBuffer,m_cube_Index_Buffer->getIndex_Count(),1,0,0,0);
+    
+    vkEndCommandBuffer(skyboxBuffer);
+
+
+}
+                        //main Thread buffer Recording                
 void App::RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex){
 
 //all these below will go into a single command buffer for one complete frame    
@@ -41,8 +95,42 @@ void App::RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex){
     renderInfo.clearValueCount=static_cast<uint32_t>(imageClearValues.size());
     renderInfo.pClearValues=imageClearValues.data();
 
-    vkCmdBeginRenderPass(buffer,&renderInfo,VK_SUBPASS_CONTENTS_INLINE);
+    //in this main renderpass where the cpu threads will beign writting on to the secondary command buffers
+    //and execution of all the buffers is after it is submitted to the queue in the DrawFrame() function
+    vkCmdBeginRenderPass(buffer,&renderInfo,VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
+    //creating the vkCommandBufferInheritanceInfo struct that tells the secondary command buffers where the main renderpass is
+    VkCommandBufferInheritanceInfo inheritanceInfo{};
+    inheritanceInfo.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+    inheritanceInfo.renderPass=m_renderPass->get();
+    inheritanceInfo.subpass=0; //start from the very first mentioned subpass
+    inheritanceInfo.framebuffer=m_frambuffer_handle->get()[current_frame];
 
+
+    //getting the handles to the secondary command buffers
+    VkCommandBuffer cubeBuffer_= m_cube_secondary_cmdbuffer_handle->getBuffer()[current_frame];
+    VkCommandBuffer skyboxBuffer_=m_skybox_secondary_cmdbuffer_handle->getBuffer()[current_frame];
+
+
+    //reset any prev commands on those buffers
+    vkResetCommandBuffer(cubeBuffer_,0);
+    vkResetCommandBuffer(skyboxBuffer_,0);
+
+    //start writting on thsoe two command buffers
+    std::future cube_return=std::async(std::launch::async,&App::RecordCubeSecondaryBuffer,this,cubeBuffer_,inheritanceInfo);
+    std::future skybox_return=std::async(std::launch::async,&App::RecordSkyboxSecondaryBuffer,this,skyboxBuffer_,inheritanceInfo);
+
+    //wait for the cpu to finish writting commands on these two buffers
+    cube_return.get();
+    skybox_return.get();
+
+    //execute both the secondary command buffers inside this main command buffer by the main thread
+    std::array<VkCommandBuffer,2>secondary_buffers={cubeBuffer_,skyboxBuffer_};
+    vkCmdExecuteCommands(buffer,static_cast<uint32_t>(secondary_buffers.size()),secondary_buffers.data());
+
+    vkCmdEndRenderPass(buffer);
+
+    vkEndCommandBuffer(buffer);
+/*
     //binding these below descriptor sets
     std::array<VkDescriptorSet,3>descriptorSets={ //--------------------->set orders
         cube_descriptor_set->get(),uniform_buffer_set->get(),skybox_descriptor_set->get()
@@ -73,10 +161,10 @@ void App::RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex){
     vkCmdEndRenderPass(buffer);
 
     vkEndCommandBuffer(buffer); //we can alos use the stdexcept here
-
+*/
 }
 
-void App::DrawFrame(){
+void App::DrawFrame(){ 
     VkFence inFlightFence=m_sync_objects->getcpuGpuFence(current_frame);
     vkWaitForFences(m_logical_device->get(),1,&inFlightFence,VK_TRUE,UINT64_MAX);
     vkResetFences(m_logical_device->get(),1,&inFlightFence);
@@ -144,7 +232,9 @@ App::App(){
     //m_depthResource contains the both view and image(above)
     m_renderPass=std::make_unique<RenderPass>(m_swapchain->getFormat(),m_depthResource->getFormat(),m_logical_device->get());
     m_frambuffer_handle=std::make_unique<FrameBuffer>(m_logical_device->get(),m_swapchainImageView->get(),m_depthResource->getImageView(),m_renderPass->get(),m_swapchain->getExtent());
-    m_command_handle=std::make_unique<CommandBuffer>(m_logical_device->get(),m_logical_device->getQueueIndex(),MAX_FRAMES_IN_FLIGHT);
+    m_command_handle=std::make_unique<CommandBuffer>(m_logical_device->get(),m_logical_device->getQueueIndex(),MAX_FRAMES_IN_FLIGHT); //main thread command handle and pool
+    m_cube_secondary_cmdbuffer_handle=std::make_unique<CommandBuffer>(m_logical_device->get(),m_logical_device->getQueueIndex(),MAX_FRAMES_IN_FLIGHT); //worker thread 1 command handle and pool
+    m_skybox_secondary_cmdbuffer_handle=std::make_unique<CommandBuffer>(m_logical_device->get(),m_logical_device->getQueueIndex(),MAX_FRAMES_IN_FLIGHT); //worker thread 2 command handle and pool
     m_sync_objects=std::make_unique<SyncObjects>(MAX_FRAMES_IN_FLIGHT,m_logical_device->get());
     m_Descriptor_Pool=std::make_unique<DescriptorPool>(m_logical_device->get());
     m_texture_sampler=std::make_unique<TextureSampler>(m_logical_device->get(),Sampler::Repeat);
@@ -252,7 +342,9 @@ App::App(){
 
     skybox_pipeline=std::make_unique<GraphicsPipeline>(m_logical_device->get(),m_renderPass->get(),m_pipeline_layout->get(),m_swapchain->getExtent(),"skybox.vert.spv","skybox.frag.spv",true);
     //-------------------------------------------------------------
-    m_command_handle->allocateCommandBuffers(MAX_FRAMES_IN_FLIGHT);
+    m_command_handle->allocateCommandBuffers(MAX_FRAMES_IN_FLIGHT);  //main thread command buffers
+    m_cube_secondary_cmdbuffer_handle->allocateSecondaryCommandBuffers(MAX_FRAMES_IN_FLIGHT); //worker thread 1 buffers
+    m_skybox_secondary_cmdbuffer_handle->allocateSecondaryCommandBuffers(MAX_FRAMES_IN_FLIGHT); //worker thread 2 buffers
 
 }
 

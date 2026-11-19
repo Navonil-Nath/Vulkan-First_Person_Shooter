@@ -42,7 +42,7 @@ class CommandBuffer{
         std::vector<VkCommandBuffer> getBuffer(){return command_buffers;}
         VkCommandBuffer beginSingleTimeCommand(); //this returns a command buffer which can be used to write various gpu related actionslike copying data from stagging buffer to VRAM
         void endSingleTimeCommandBuffer(VkQueue queue,VkCommandBuffer commandBuffer);
-
+        void allocateSecondaryCommandBuffers(uint32_t total_frames);
     private:
 
         VkCommandPool m_commandPool{VK_NULL_HANDLE};

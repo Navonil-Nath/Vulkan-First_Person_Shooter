@@ -15,6 +15,20 @@ CommandBuffer::~CommandBuffer(){
 
 }
 
+void CommandBuffer::allocateSecondaryCommandBuffers(uint32_t total_frames){
+    command_buffers.resize(total_frames);
+    
+    VkCommandBufferAllocateInfo allocate_info{};
+    allocate_info.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    allocate_info.commandPool=m_commandPool;
+    allocate_info.level=VK_COMMAND_BUFFER_LEVEL_SECONDARY; //here secondary means they will execute in the background and then submitted to the queue through the main thread thrugh the vkCmdExecuteCommand()
+    allocate_info.commandBufferCount=total_frames;
+
+    if(vkAllocateCommandBuffers(m_device,&allocate_info,command_buffers.data())!=VK_SUCCESS){
+        throw std::runtime_error("the secondary command buffer coudn't be created");
+    }
+}
+
 void CommandBuffer::CreateCommandpool(uint32_t queueIndex){
     VkCommandPoolCreateInfo createInfo{};
     createInfo.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;

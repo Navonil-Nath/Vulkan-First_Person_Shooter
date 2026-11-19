@@ -46,7 +46,7 @@
 #include"cubeMeshData.hpp"
 #include"camera.hpp"
 #include"graphicsPipeline.hpp"
-
+#include<future>//we will use the future c++ library to assign tasks to the worker threads
 
 
 
@@ -80,7 +80,9 @@ class App{
         std::unique_ptr<DepthResource>m_depthResource;
         std::unique_ptr<RenderPass>m_renderPass;
         std::unique_ptr<FrameBuffer>m_frambuffer_handle;
-        std::unique_ptr<CommandBuffer>m_command_handle;
+        std::unique_ptr<CommandBuffer>m_command_handle;  //--->main thread buffer handle
+        std::unique_ptr<CommandBuffer>m_cube_secondary_cmdbuffer_handle;
+        std::unique_ptr<CommandBuffer>m_skybox_secondary_cmdbuffer_handle;
         std::unique_ptr<SyncObjects>m_sync_objects;
         std::unique_ptr<Camera>m_camera;
         void UpdateUniformBuffer(float deltaTime);
@@ -98,7 +100,9 @@ class App{
         std::unique_ptr<UniformBuffer>m_uniform_buffer;
         std::unique_ptr<CreateImage>m_image_and_view_maker;
         uint32_t current_frame=0;
-        void RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex); //this is where we will record per frame commands
+        void RecordCommandBuffer(VkCommandBuffer buffer,uint32_t imageIndex); //this is where we will record per frame commands (MAIN THREAD)
+        void RecordCubeSecondaryBuffer(VkCommandBuffer cubeBuffer,const VkCommandBufferInheritanceInfo& inheritanceInfo);
+        void RecordSkyboxSecondaryBuffer(VkCommandBuffer skyboxBuffer,const VkCommandBufferInheritanceInfo& inheritanceInfo);        
         void DrawFrame();
 
         //-----------------------------------------------
