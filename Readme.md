@@ -17,6 +17,6 @@ stb_image.h
 
 The engine starts from the engine/main.cpp
 
-
+To view the latest project go to the "Version_two" branch
 
 This is what the final output of the enigne looks like as of now: ![Engine runtime output](engine_pictures/picture_version_one.png)
